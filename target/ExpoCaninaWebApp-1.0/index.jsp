@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.mundo.expocaninawebapp.Perro"%>
 <%@include file= "templates/header.jsp" %>
 
     <div class="container text-left">
@@ -5,6 +7,7 @@
             <div class="row">
                 <div class="col-lg-4 col-md-4">
                     <div class="card card-body"> <!-- Tarjeta de trabajo -->
+                        <form action ="SvExpCanina" method = "POST" >
                             <h3>Insertar nuevo perro</h3><br>
                             <div class="col-auto">
                                 <label class="visually-hidden" for="nombre">Nombre</label>
@@ -59,8 +62,47 @@
                             </div>
                         </div>
                         <br><button type="submit" class="btn btn-success">Insertar Perro</button>
+                        </form>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-8 col-md-8">
+        <div class="card card-body"> <!-- Tarjeta de trabajo -->
+            <div class="row">
+                <table class="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Raza</th>
+                            <th>Foto</th>
+                            <th>Puntos</th>
+                            <th>Edad</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%
+                            //Obtener el arrayList de la solicitud
+                            ArrayList<Perro> misPerros = (ArrayList<Perro>) request.getSession().getAttribute("misPerros");
+
+                            if (misPerros != null) {
+                               for (Perro perro : misPerros) {
+                        %>                   
+                        <tr>
+                            <td><%= perro.getNombre()%></td>
+                            <td><%= perro.getRaza()%></td>
+                            <td><%= perro.getImagen()%></td>
+                            <td><%= perro.getPuntos()%></td>
+                            <td><%= perro.getEdad()%></td>
+                            <td>Editar</td>               
+                        </tr>
+                        <% }
+                        }%>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
