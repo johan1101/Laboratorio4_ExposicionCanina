@@ -1,6 +1,8 @@
 package com.mundo.expocaninawebapp;
 
-public class Perro {
+import java.io.Serializable;
+
+public class Perro implements Serializable{
     
     private String nombre;
     private String raza;
