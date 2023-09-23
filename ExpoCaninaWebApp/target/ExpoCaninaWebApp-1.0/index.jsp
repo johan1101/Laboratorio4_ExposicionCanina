@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-lg-4 col-md-4">
                     <div class="card card-body"> <!-- Tarjeta de trabajo -->
-                        <form action ="SvExpCanina" method = "POST" >
+                        <form action ="SvExpCanina" method = "POST" enctype="multipart/form-data">
                             <h3>Insertar nuevo perro</h3><br>
                             <div class="col-auto">
                                 <label class="visually-hidden" for="nombre">Nombre</label>
@@ -30,7 +30,7 @@
                                 <label class="visually-hidden" for="imagen">Imagen</label>
                                 <div class="input-group">
                                     <div class="input-group-text">Imagen:</div>
-                                    <input type="file" class="form-control" id="imagen" name="imagen" required 
+                                    <input type="file" class="form-control" id="imagen" name="imagen" accept=".jpg, .jpeg, .png" required 
                                 </div>
                             </div>
                                                        
@@ -98,7 +98,7 @@
                         <tr>
                             <td><%= perro.getNombre()%></td>
                             <td><%= perro.getRaza()%></td>
-                            <td><%= perro.getImagen()%></td>
+                            <td><img src="<%= request.getContextPath() %>/imgPerros/<%= perro.getImagen() %>" style="width: 200px;" alt="Imagen de perro"></td>
                             <td><%= perro.getPuntos()%></td>
                             <td><%= perro.getEdad()%></td>
                             <td>Editar</td>               
