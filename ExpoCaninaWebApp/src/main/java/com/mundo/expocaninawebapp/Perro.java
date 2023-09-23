@@ -2,63 +2,132 @@ package com.mundo.expocaninawebapp;
 
 import java.io.Serializable;
 
-public class Perro implements Serializable{
-    
-    private String nombre;
-    private String raza;
-    private String imagen;
-    private int puntos;
-    private int edad;
 
-    public Perro() {
-    }
+    /**
+     * La clase Perro representa a un perro en la aplicación de la exposición canina.
+     * Cada instancia de esta clase contiene información sobre el nombre, raza, imagen,
+     * puntos y edad de un perro.
+     */
+    public class Perro implements Serializable {
 
-    public Perro(String nombre, String raza, String imagen, int puntos, int edad) {
-        this.nombre = nombre;
-        this.raza = raza;
-        this.imagen = imagen;
-        this.puntos = puntos;
-        this.edad = edad;
-    }
+        //Atributos de la clase Perro
+        private String nombre; //Nombre del perro
+        private String raza;   //Raza del perro
+        private String imagen; //Nombre de la imagen del perro
+        private int puntos;    //Puntuacion del perro
+        private int edad;      //Edad del perro
 
-    public String getNombre() {
-        return nombre;
-    }
+        /**
+        * Constructor por defecto de la clase Perro.
+        * Crea una instancia de Perro con atributos vacíos.
+        */
+        public Perro() {
+        }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+        /**
+        * Constructor de la clase Perro.
+        *
+        * @param nombre Nombre del perro.
+        * @param raza   Raza del perro.
+        * @param imagen Nombre de la imagen del perro.
+        * @param puntos Puntuación del perro.
+        * @param edad   Edad del perro.
+        */
+        public Perro(String nombre, String raza, String imagen, int puntos, int edad) {
+            this.nombre = nombre;
+            this.raza = raza;
+            this.imagen = imagen;
+            this.puntos = puntos;
+            this.edad = edad;
+        }
 
-    public String getRaza() {
-        return raza;
-    }
+        /**
+        * Obtiene el nombre del perro.
+        *
+        * @return Nombre del perro.
+        */
+        public String getNombre() {
+            return nombre;
+        }
 
-    public void setRaza(String raza) {
-        this.raza = raza;
-    }
+        /**
+        * Establece el nombre del perro.
+        *
+        * @param nombre Nombre del perro.
+        */
+        public void setNombre(String nombre) {
+            this.nombre = nombre;
+        }
 
-    public String getImagen() {
-        return imagen;
-    }
+        /**
+        * Obtiene la raza del perro.
+        *
+        * @return Raza del perro.
+        */
+        public String getRaza() {
+            return raza;
+        }
 
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
-    }
+        /**
+        * Establece la raza del perro.
+        *
+        * @param raza Raza del perro.
+        */
+        public void setRaza(String raza) {
+            this.raza = raza;
+        }
 
-    public int getPuntos() {
-        return puntos;
-    }
+        /**
+        * Obtiene el nombre de la imagen del perro.
+        *
+        * @return Nombre de la imagen del perro.
+        */
+        public String getImagen() {
+            return imagen;
+        }
 
-    public void setPuntos(int puntos) {
-        this.puntos = puntos;
-    }
+        /**
+        * Establece el nombre de la imagen del perro.
+        *
+        * @param imagen Nombre de la imagen del perro.
+        */
+        public void setImagen(String imagen) {
+            this.imagen = imagen;
+        }
 
-    public int getEdad() {
-        return edad;
-    }
+        /**
+        * Obtiene la puntuación del perro.
+        *
+        * @return Puntuación del perro.
+        */
+        public int getPuntos() {
+            return puntos;
+        }
 
-    public void setEdad(int edad) {
-        this.edad = edad;
+        /**
+        * Establece la puntuación del perro.
+        *
+        * @param puntos Puntuación del perro.
+        */
+        public void setPuntos(int puntos) {
+            this.puntos = puntos;
+        }
+
+        /**
+        * Obtiene la edad del perro.
+        *
+        * @return Edad del perro.
+        */
+        public int getEdad() {
+            return edad;
+        }
+
+        /**
+        * Establece la edad del perro.
+        *
+        * @param edad Edad del perro.
+        */
+        public void setEdad(int edad) {
+            this.edad = edad;
+        }
     }
-    
-}
