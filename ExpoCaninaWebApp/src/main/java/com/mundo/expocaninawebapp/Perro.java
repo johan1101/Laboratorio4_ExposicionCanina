@@ -2,6 +2,10 @@ package com.mundo.expocaninawebapp;
 
 import java.io.Serializable;
 
+/**
+ *
+ * @author Johan Ordoñez - Ana Cristina Mera - Karoll Gabriela Delgado
+ */
 
     /**
      * La clase Perro representa a un perro en la aplicación de la exposición canina.

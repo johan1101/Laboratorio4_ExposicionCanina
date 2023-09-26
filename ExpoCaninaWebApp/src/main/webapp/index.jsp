@@ -100,12 +100,14 @@
                             for (Perro perro : misPerros) {
                     %>                   
                     <tr>
+                        <!-- Muestra los datos ingresados en la tabla -->
                         <td><%= perro.getNombre()%></td>
                         <td><%= perro.getRaza()%></td>
                         <td><img src="<%= request.getContextPath()%>/imgPerros/<%= perro.getImagen()%>" style="width: 200px;" alt="Imagen de perro"></td>
                         <td><%= perro.getPuntos()%></td>
                         <td><%= perro.getEdad()%></td>
-                        <td>Editar</td>               
+                        <!-- Iconos de acciones -->
+                        <td><a><img src="./img/view.png" alt="..."/> <img src="./img/lapiz.png" alt="..."/><img src="./img/basurero.png" alt=""/></a></td>               
                     </tr>
                     <% }
                             }%>
