@@ -20,7 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-@MultipartConfig
+// Método para manejar las solicitudes HTTP, para tabajar con archivos FILE
+@MultipartConfig 
 @WebServlet(name = "SvExpCanina", urlPatterns = {"/SvExpCanina"})
 public class SvExpCanina extends HttpServlet {
 
