@@ -20,22 +20,64 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+
+@WebServlet(name = "SvExpCanina", urlPatterns = {"/SvExpCanina"})
 // Método para manejar las solicitudes HTTP, para tabajar con archivos FILE
 @MultipartConfig 
-@WebServlet(name = "SvExpCanina", urlPatterns = {"/SvExpCanina"})
 public class SvExpCanina extends HttpServlet {
 
+        //Crear una lista para almacenar objetos Perro
+        ArrayList<Perro> misPerros = new ArrayList<>();
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+    }
+    
+    // Método para buscar un perro por nombre en la lista
+    private Perro buscarPerroPorNombre(String nombre) {
+        for (Perro perro : misPerros) {
+            if (perro.getNombre().equals(nombre)){
+                return perro; // Retorna el perro si lo encuentra
+            }
+        }
+        return null; // Retorna null si no se encuentra el perro
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+          //Obtener la sesion actual
+        HttpSession session = request.getSession();
+        
+        //Obtener el contexto del servlet
+        ServletContext context = getServletContext();
+        
+            try {
+                Serializacion.leerArchivo(misPerros, context);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(SvExpCanina.class.getName()).log(Level.SEVERE, null, ex);
+            }
+          String nombre = request.getParameter("nombre");
+        Perro perro = buscarPerroPorNombre(nombre); // Implementa la lógica para buscar el perro en tu lista de perros
+        if (perro != null) {
+            // Genera la respuesta HTML con los detalles del perro
+            String perroHtml = "<h2>Nombre: " + perro.getNombre() + "</h2>" +
+                               "<p>Raza: " + perro.getRaza() + "</p>" +
+                               "<p>Puntos: " + perro.getPuntos() + "</p>" +
+                               "<p>Edad (meses): " + perro.getEdad() + "</p>" +
+                               "<img src='imgPerros/" + perro.getImagen() + "'alt='" + perro.getNombre() + "' width='100%'/>";
+                               
+            response.setContentType("text/html");
+            response.getWriter().write(perroHtml);
+        } else {
+            // Maneja el caso en el que no se encuentra el perro
+            response.setContentType("text/plain");
+            response.getWriter().write("Perro no encontrado");
+        }
     }
 
+    //"<p><img src=" + request.getContextPath() + "/imgPerros/" + perro.getImagen() + " 'style='width: 200px;" + "alt='Imagen de perro'></p>";
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

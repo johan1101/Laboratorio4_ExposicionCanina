@@ -7,17 +7,17 @@
 <%@include file= "templates/header.jsp" %>
 
 <!-- Clase contenedora -->
-<div class="container">
+<div class="container p-4">
     <div class="row">
         <img src="./img/front.png" alt=""> <!-- Imagen en la parte superior de la página web -->
         <!-- Columna izquierda para el formulario -->
         <div class="col-lg-4 col-md-4"> <!-- Clase de división en cuatro columnas -->
             <div class="card card-body"> <!-- Tarjeta de trabajo -->
                 <!-- Acción que conecta con el servlet llamado SvExpCanina por metodo POST-->
-                <form action="SvExpCanina" method="POST" enctype="multipart/form-data">
+                <form action="SvExpCanina" method="POST" enctype="multipart/form-data"> <!-- Esta sentencia es para subir archivos -->
                     <h3>Insertar nuevo perro</h3><br> <!-- Titulo del formulario para insertar un perro -->
-                    
-                    <!-- Formulario que recibe todos los datos para insertar un nuueva perro -->
+
+                    <!-- Formulario que recibe todos los datos para insertar un nuevo perro -->
                     <div class="col-auto">
                         <label class="visually-hidden" for="nombre">Nombre</label>
                         <div class="input-group">
@@ -71,9 +71,9 @@
                     </div>
                     <!-- Botón de tipo submit que permite insertar un perro -->
                     <br><button type="submit" class="btn btn-success">Insertar Perro</button>
-                </form>
-            </div>
-        </div>
+                </form> <!-- Cierre del form -->
+            </div> <!-- Cierre de la clase card card-body -->
+        </div> <!-- Cierre de la clase col-lg-4 col-md-4 -->
 
         <!-- Columna del lado derecho para la tabla de datos -->
         <div class="col-lg-8 col-md-8"> <!-- Clase de división en ocho columnas -->
@@ -101,28 +101,85 @@
                             //Cargar la lista de perros desde un archivo
                             Serializacion.leerArchivo(misPerros, context);
 
-                            //Condicional que verifica si la lista de perros no es nula
-                            if (misPerros != null) {
+                            //Condicional que verifica si la lista de perros no esta vacia
+                            if (!misPerros.isEmpty()) {
                                 for (Perro perro : misPerros) {
                         %>                   
                         <tr>
+
                             <!-- Muestra los datos ingresados en la tabla -->
                             <td><%= perro.getNombre()%></td>
                             <td><%= perro.getRaza()%></td>
-                            <td><img src="<%= request.getContextPath()%>/imgPerros/<%= perro.getImagen()%>" style="width: 200px;" alt="Imagen de perro"></td>
+                            <td><%= perro.getImagen()%></td>
+                            <!-- <td><img src="<%= request.getContextPath()%>/imgPerros/<%= perro.getImagen()%>" style="width: 200px;" alt="Imagen de perro"></td> -->
                             <td><%= perro.getPuntos()%></td>
                             <td><%= perro.getEdad()%></td>
                             <!-- Iconos de acciones -->
-                            <td><a><img src="./img/view.png" alt="..."/> <img src="./img/lapiz.png" alt="..."/><img src="./img/basurero.png" alt=""/></a></td>               
+                            <td>
+                                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-eye"></i></a>
+                                <i class="fa fa-marker"></i>
+                                <i class="fa fa-trash-alt"></i>
+                            </td>               
                         </tr>
                         <% }
-                            }%>
+                            } else {
+                                // Si el ArrayList esta vacio envia un mensaje informando al usuario
+                                out.println("<tr>");
+                                // colspan="6" Sirve para ocupar todas las columnas de la tabla de datos
+                                out.println("<td colspan='6'>No hay perros registrados</td>");
+                                out.println("<tr>");
+                            }
+                        %>
                     </tbody>
-                </table>
+                </table> <!-- Cierre de la etiqueta table-->
+            </div> <!-- Cierre de la clase card card-body -->
+        </div> <!-- Cierre de la clase col-lg-8 col-md-8 -->
+    </div> <!-- Cierre de la clase row -->
+</div> <!-- Cierre de la clase container p-4 -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detalles del Perro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="perro-details">
+                    <!-- Aquí se mostraran los detalles del perro -->
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    // funcion para mostrar los datos en la ventana modal
+    $('#exampleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Botón que desencadenó el evento
+        var nombre = button.data('nombre'); // Obtén el nombre del perro
+
+        // Realiza una solicitud AJAX al servlet para obtener los detalles del perro por su nombre
+        $.ajax({
+            url: 'SvExpCanina?nombre=' + nombre, // Cambia 'id' por el nombre del parámetro que esperas en tu servlet
+            method: 'GET',
+            success: function (data) {
+                // Actualiza el contenido del modal con los detalles del perro
+                $('#perro-details').html(data);
+            },
+            error: function () {
+                // Maneja errores aquí si es necesario
+                console.log('Error al cargar los detalles del perro.');
+            }
+        });
+    });
+
+</script>
 
 <!-- Inclución de la plantilla de footer -->
 <%@include file= "templates/footer.jsp" %>
