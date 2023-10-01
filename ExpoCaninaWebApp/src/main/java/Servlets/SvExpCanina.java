@@ -20,24 +20,23 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-
 @WebServlet(name = "SvExpCanina", urlPatterns = {"/SvExpCanina"})
 // Método para manejar las solicitudes HTTP, para tabajar con archivos FILE
-@MultipartConfig 
+@MultipartConfig
 public class SvExpCanina extends HttpServlet {
 
-        //Crear una lista para almacenar objetos Perro
-        ArrayList<Perro> misPerros = new ArrayList<>();
-    
+    //Crear una lista para almacenar objetos Perro
+    ArrayList<Perro> misPerros = new ArrayList<>();
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
     }
-    
+
     // Método para buscar un perro por nombre en la lista
     private Perro buscarPerroPorNombre(String nombre) {
         for (Perro perro : misPerros) {
-            if (perro.getNombre().equals(nombre)){
+            if (perro.getNombre().equals(nombre)) {
                 return perro; // Retorna el perro si lo encuentra
             }
         }
@@ -47,25 +46,25 @@ public class SvExpCanina extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         //Obtener el contexto del servlet
         ServletContext context = getServletContext();
-        
-            try {
-                Serializacion.leerArchivo(misPerros, context);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(SvExpCanina.class.getName()).log(Level.SEVERE, null, ex);
-            }
-          String nombre = request.getParameter("nombre");
+
+        try {
+            Serializacion.leerArchivo(misPerros, context);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SvExpCanina.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String nombre = request.getParameter("nombre");
         Perro perro = buscarPerroPorNombre(nombre); // Implementa la lógica para buscar el perro en tu lista de perros
         if (perro != null) {
             // Genera la respuesta HTML con los detalles del perro
-            String perroHtml = "<h2>Nombre: " + perro.getNombre() + "</h2>" +
-                               "<p>Raza: " + perro.getRaza() + "</p>" +
-                               "<p>Puntos: " + perro.getPuntos() + "</p>" +
-                               "<p>Edad (meses): " + perro.getEdad() + "</p>" +
-                               "<img src='imgPerros/" + perro.getImagen() + "'alt='" + perro.getNombre() + "' width='100%'/>";
-                               
+            String perroHtml = "<h2>Nombre: " + perro.getNombre() + "</h2>"
+                    + "<p>Raza: " + perro.getRaza() + "</p>"
+                    + "<p>Puntos: " + perro.getPuntos() + "</p>"
+                    + "<p>Edad (meses): " + perro.getEdad() + "</p>"
+                    + "<img src='imgPerros/" + perro.getImagen() + "'alt='" + perro.getNombre() + "' width='100%'/>";
+
             response.setContentType("text/html");
             response.getWriter().write(perroHtml);
         } else {
@@ -82,13 +81,13 @@ public class SvExpCanina extends HttpServlet {
 
         //Obtener la sesion actual
         HttpSession session = request.getSession();
-        
+
         //Obtener el contexto del servlet
         ServletContext context = getServletContext();
 
         //Crear una lista para almacenar objetos Perro
         ArrayList<Perro> misPerros = new ArrayList<>();
-        
+
         try {
             //Cargar la lista de perros desde un archivo
             Serializacion.leerArchivo(misPerros, context);
@@ -100,10 +99,10 @@ public class SvExpCanina extends HttpServlet {
         // Obtener datos del formulario enviados por POST
         String nombre = request.getParameter("nombre");
         String raza = request.getParameter("raza");
-        
+
         //Obtener la parte del archivo de imagen desde la solicitud
         Part filePart = request.getPart("imagen");
-        
+
         String puntos = request.getParameter("puntos");
         String edad = request.getParameter("edad");
 
@@ -117,12 +116,11 @@ public class SvExpCanina extends HttpServlet {
         String filePath = uploadPath + File.separator + fileName;
 
         //Abrir un flujo de entrada para el archivo de imagen recibido
-        try (InputStream fileContent = filePart.getInputStream(); 
-            FileOutputStream outputStream = new FileOutputStream(filePath)) {
+        try (InputStream fileContent = filePart.getInputStream(); FileOutputStream outputStream = new FileOutputStream(filePath)) {
 
             int read;
             byte[] buffer = new byte[1024];
-            
+
             //Leer el archivo de imagen y escribirlo en el servidor
             while ((read = fileContent.read(buffer)) != -1) {
                 outputStream.write(buffer, 0, read);
@@ -131,14 +129,14 @@ public class SvExpCanina extends HttpServlet {
 
         // Crear un objeto Perro con los datos ingresados y el nombre del archivo de imagen
         Perro perro = new Perro(nombre, raza, fileName, Integer.parseInt(puntos), Integer.parseInt(edad));
-        
+
         //Agregar el objeto Perro a la lista de perros
         misPerros.add(perro);
-        
+
         //Guardar la lista actualizada en un archivo
         Serializacion.escribirArchivo(misPerros, context);
 
-         // Agregar la lista completa de perros como atributo en la sesión
+        // Agregar la lista completa de perros como atributo en la sesión
         session.setAttribute("misPerros", misPerros);
 
         // Redireccionar a la página de destino

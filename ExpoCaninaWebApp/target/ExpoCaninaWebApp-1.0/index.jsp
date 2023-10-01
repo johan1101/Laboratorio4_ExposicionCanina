@@ -221,7 +221,7 @@
 
 <!------------------------------------Modales para editar las caracteristicas ------------------------------------>
 
-<!-- Modal para editar las caracteristicas de un perro -->
+<!-- Modal principal para editar las caracteristicas de un perro -->
 <div class="modal fade" id="editModalConfirm" tabindex="-1" aria-labelledby="editModalLabelConfirm" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -232,38 +232,104 @@
                 <div id="perro-detalles" style="display: flex; justify-content: center;">
                     <button href="#" type="button" class="btn btn-danger" data-bs-toggle="modal" style="margin-right: 30px;" data-bs-target="#editRaza" >Editar raza</button>
                     <button href="#" type="button" class="btn btn-danger" data-bs-toggle="modal" style="margin-right: 30px;" data-bs-target="#editFoto" >Editar foto</button>
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" style="margin-right: 30px;" data-bs-target="#editModalConfirm" onclick="editDog()">Editar puntos</button>
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#editModalConfirm" onclick="editDog()">Editar edad</button>
+                    <button href="#" type="button" class="btn btn-danger" data-bs-toggle="modal" style="margin-right: 30px;" data-bs-target="#editPuntos" >Editar puntos</button>
+                    <button href="#" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#editEdad" >Editar edad</button>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal" style="margin-right: 30px;">Cancelar</button>
-                
             </div>
         </div>
     </div>
 </div>
 
+<!-- Modal para editar la edad del perro -->
+<div class="modal fade" id="editEdad" tabindex="-1" aria-labelledby="editEdadLabelConfirm" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="miFormularioEdad">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editEdadLabelConfirm">Editar edad</span></h5>
+                </div>
+                <div class="modal-body">
+                    <div id="perro-detalles" style="display: flex; justify-content: center;">
+                        <label class="visually-hidden" for="edad">Edad</label>
+                        <div class="input-group">
+                            <div class="input-group-text">Nueva edad:</div>
+                            <input type="text" class="form-control" id="nuevaEdad" name="edad" required pattern="[0-9]+" title="Por favor, ingrese solo números">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModalConfirm" style="margin-right: 30px;">Cancelar</button>
+                    <button type="submit" class="btn btn-danger" onclick="editarCaracteristicas('miFormularioEdad')">Actualizar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <!-- Modal para editar la raza del perro -->
 <div class="modal fade" id="editRaza" tabindex="-1" aria-labelledby="editRazaLabelConfirm" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editRazaLabelConfirm">Editar raza</span></h5>
-            </div>
-            <div class="modal-body">
-                <div id="perro-detalles" style="display: flex; justify-content: center;">
-                    <label class="visually-hidden" for="raza">Raza</label>
+            <form id="miFormularioRaza">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editRazaLabelConfirm">Editar raza</span></h5>
+                </div>
+                <div class="modal-body">
+                    <div id="perro-detalles" style="display: flex; justify-content: center;">
+                        <label class="visually-hidden" for="raza">Raza</label>
                         <div class="input-group">
                             <div class="input-group-text">Ingresa la nueva raza:</div>
                             <input type="text" class="form-control" id="nuevaRaza" name="raza" required>
                         </div>
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModalConfirm" style="margin-right: 30px;">Cancelar</button>
-                <button type="button" class="btn btn-danger" onclick="editarCaracteristicas()">Actualizar</button>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModalConfirm" style="margin-right: 30px;">Cancelar</button>
+                    <button type="submit" class="btn btn-danger" onclick="editarCaracteristicas('miFormularioRaza')">Actualizar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para editar los puntos del perro -->
+<div class="modal fade" id="editPuntos" tabindex="-1" aria-labelledby="editPuntosLabelConfirm" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="miFormularioPuntos">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editPuntosLabelConfirm">Editar puntos</span></h5>
+                </div>
+                <div class="modal-body">
+                    <div id="perro-detalles" style="display: flex; justify-content: center;">
+                        <label class="visually-hidden" for="puntos">Puntos</label>
+                        <div class="input-group">
+                            <div class="input-group-text">Nueva puntuacion:</div>
+                            <select class="form-select" id="punto" name="puntos" aria-label="Default select example" required>
+                                <option value="" disabled selected>Seleccione una opción</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModalConfirm" style="margin-right: 30px;">Cancelar</button>
+                    <button type="submit" class="btn btn-danger" onclick="editarCaracteristicas('miFormularioPuntos')">Actualizar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -272,22 +338,22 @@
 <div class="modal fade" id="editFoto" tabindex="-1" aria-labelledby="editFotoLabelConfirm" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editFotoLabelConfirm">Editar raza</span></h5>
-            </div>
-            <div class="modal-body">
-                <div id="perro-detalles" style="display: flex; justify-content: center;">
-                    <label class="visually-hidden" for="imagen">Imagen</label>
+            <form id="fileUploadForm" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editFotoLabelConfirm">Editar foto</span></h5>
+                </div>
+                <div class="modal-body">
+                    
                         <div class="input-group">
                             <div class="input-group-text">Nueva imagen:</div>
                             <input type="file" class="form-control" id="imagen" name="imagen" accept=".jpg, .jpeg, .png" required>
                         </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModalConfirm" style="margin-right: 30px;">Cancelar</button>
-                <button type="button" class="btn btn-danger" onclick="editarCaracteristicas()">Actualizar</button>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModalConfirm" style="margin-right: 30px;">Cancelar</button>
+                    <button type="submit" class="btn btn-danger" onclick="editarFoto()">Actualizar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -295,40 +361,94 @@
 <!------------------------------------///Modales para editar las caracteristicas ------------------------------------>
 
 <!------------------------------------Scripts para editar las caracteristicas ------------------------------------>
+<script>
+    function editarFoto() {
+
+        var form = document.getElementById("fileUploadForm");
+
+        // Verificar la validez del formulario
+        if (form.checkValidity()) {
+
+            // Obtén el formulario
+            var form = document.getElementById("fileUploadForm");
+
+            // Construye un objeto FormData con el formulario
+            var formData = new FormData(form);
+
+            // Obtiene el nombre del perro
+            var nombre = nombreEdit; // Asegúrate de que esta variable esté definida
+
+            // Agrega el nombre como un campo en el formData
+            formData.append('nombre', nombre);
+
+            // Realiza una solicitud AJAX al servlet para editar la foto del perro
+            $.ajax({
+                url: 'SvOpciones', // URL del servlet que manejará la edición de la foto
+                method: 'POST', // Utiliza POST para enviar datos de formulario
+                data: formData, // Envía los datos del formulario incluyendo el archivo y el nombre
+                contentType: false, // Establece el tipo de contenido como false para que jQuery maneje automáticamente el encabezado
+                processData: false, // No procesa los datos, ya que FormData lo hace automáticamente
+                success: function (data) {
+                    // En caso de éxito en la solicitud:
+                    // Cierra el modal de edición de foto
+                    $('#editFoto').modal('hide');
+
+                    // Recarga la página actual para reflejar los cambios
+                    location.reload();
+                },
+                error: function () {
+                    // En caso de error en la solicitud:
+                    // Registra un mensaje de error en la consola (para fines de depuración)
+                    console.log('Error al editar la foto del perro.');
+                }
+            });
+        } else {
+            // Pedira que se ingrese un dato
+        }
+    }
+</script>
 
 <script>
     /**
      * Esta función se encarga de eliminar un perro a través de una solicitud AJAX al servidor.
      */
-        // Coloca tu código JavaScript aquí
-    
-    function editarCaracteristicas() {
-        // Obtiene el nombre del perro desde una variable previamente definida (nombreP)
-        var nombre = nombreEdit;
+    function editarCaracteristicas(nombre) {
+        var form = document.getElementById(nombre);
+
+        // Verificar la validez del formulario
+        if (form.checkValidity()) {
+            // Obtiene el nombre del perro desde una variable previamente definida (nombreP)
+            var nombre = nombreEdit;
 
             // Obtener el valor de la nueva raza ingresada por el usuario
-        var nuevaR = document.getElementById('nuevaRaza').value;
+            var nuevaR = document.getElementById('nuevaRaza').value || "";
 
-        // Realiza una solicitud AJAX al servlet 'SvEliminar' para eliminar el perro
-        $.ajax({
-            url: 'SvOpciones?nombre=' + nombre + '&nuevaRaza=' + nuevaR, // URL con dos parámetros: nombre y nuevaRaza
-            method: 'GET', // Método HTTP utilizado para la solicitud (GET en este caso)
-            success: function (data) {
-                // En caso de éxito en la solicitud:
+            // Obtener el valor de los nuevos puntos ingresados por el usuario
+            var nuevosPuntos = document.getElementById('punto').value || "";
 
-                // Cierra el modal de eliminación
-                $('#editRaza').modal('hide');
+            // Obtener el valor de la nueva edad ingresada por el usuario
+            var nuevaEdad = document.getElementById('nuevaEdad').value || "";
 
-                // Recarga la página actual para reflejar los cambios
-                location.reload();
-            },
-            error: function () {
-                // En caso de error en la solicitud:
+            // Realiza una solicitud AJAX al servlet 'SvOpciones' para editar las características del perro
+            $.ajax({
+                url: 'SvOpciones?nombre=' + nombre + '&nuevaRaza=' + nuevaR + '&nuevosPuntos=' + nuevosPuntos + '&nuevaEdad=' + nuevaEdad, // URL con cuatro parámetros: nombre, nuevaRaza, nuevosPuntos y nuevaEdad
+                method: 'GET', // Método HTTP utilizado para la solicitud (GET en este caso)
+                success: function (data) {
+                    // En caso de éxito en la solicitud
 
-                // Registra un mensaje de error en la consola (para fines de depuración)
-                console.log('Error al eliminar el perro.');
-            }
-        });
+                    // Recarga la página actual para reflejar los cambios
+                    location.reload();
+                },
+                error: function () {
+                    // En caso de error en la solicitud:
+
+                    // Registra un mensaje de error en la consola (para fines de depuración)
+                    console.log('Error al editar las características del perro.');
+                }
+            });
+        } else {
+            // Pedira que se ingrese un dato
+        }
     }
 
 
