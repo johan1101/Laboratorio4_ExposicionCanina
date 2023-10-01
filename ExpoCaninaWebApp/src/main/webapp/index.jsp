@@ -114,13 +114,15 @@
                             <!-- <td><img src="<%= request.getContextPath()%>/imgPerros/<%= perro.getImagen()%>" style="width: 200px;" alt="Imagen de perro"></td> -->
                             <td><%= perro.getPuntos()%></td>
                             <td><%= perro.getEdad()%></td>
+
                             <!-- Iconos de acciones -->
                             <td>
-                                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-eye"></i></a>
-                                <i class="fa fa-marker"></i>
-                                <i class="fa fa-trash-alt"></i>
+                                <a href="#"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalDetalles" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-eye"></i></a>
+                                <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-marker"></i></a>         
+                                <a href="#" id="nombrePerro" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModalConfirm" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-trash-alt"></i></a>
                             </td>               
                         </tr>
+
                         <% }
                             } else {
                                 // Si el ArrayList esta vacio envia un mensaje informando al usuario
@@ -137,18 +139,17 @@
     </div> <!-- Cierre de la clase row -->
 </div> <!-- Cierre de la clase container p-4 -->
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal para la visualización del perro -->
+<div class="modal fade" id="exampleModalDetalles" tabindex="-1" aria-labelledby="exampleModalLabelDetalles" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Detalles del Perro</h5>
+                <h5 class="modal-title" id="exampleModalLabelDetalles">Detalles del Perro</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div id="perro-details">
-                    <!-- Aquí se mostraran los detalles del perro -->
-
+                    <!-- Aquí se mostrarán los detalles del perro -->
                 </div>
             </div>
             <div class="modal-footer">
@@ -158,28 +159,120 @@
     </div>
 </div>
 
+
+<!-- Modal para la confirmación de eliminar un perro -->
+<div class="modal fade" id="deleteModalConfirm" tabindex="-1" aria-labelledby="deleteModalLabelConfirm" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabelConfirm">¿Estás seguro de que quieres eliminar  a <span id="nombrePerroEnModal"></span>?</h5>
+            </div>
+            <div class="modal-body">
+                <div id="perro-details" style="display: flex; justify-content: center;">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" style="margin-right: 30px;">Cancelar</button>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModalConfirm" onclick="deleteDog()">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    // funcion para mostrar los datos en la ventana modal
-    $('#exampleModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget); // Botón que desencadenó el evento
-        var nombre = button.data('nombre'); // Obtén el nombre del perro
+    /**
+     * Esta función se encarga de mostrar los detalles de un perro en una ventana modal.
+     * Se dispara cuando se muestra el modal.
+     */
+    $('#exampleModalDetalles').on('show.bs.modal', function (event) {
+        // Obtiene el botón que desencadenó el evento de mostrar el modal
+        var button = $(event.relatedTarget);
+
+        // Obtiene el nombre del perro desde el atributo 'data-nombre' del botón
+        var nombre = button.data('nombre');
 
         // Realiza una solicitud AJAX al servlet para obtener los detalles del perro por su nombre
         $.ajax({
-            url: 'SvExpCanina?nombre=' + nombre, // Cambia 'id' por el nombre del parámetro que esperas en tu servlet
-            method: 'GET',
+            url: 'SvExpCanina?nombre=' + nombre, // La URL del servlet, puede variar según la configuración
+            method: 'GET', // Método HTTP utilizado para la solicitud
             success: function (data) {
+                // La función que se ejecuta cuando la solicitud AJAX es exitosa
+
                 // Actualiza el contenido del modal con los detalles del perro
                 $('#perro-details').html(data);
             },
             error: function () {
-                // Maneja errores aquí si es necesario
+                // La función que se ejecuta en caso de error durante la solicitud AJAX
+
+                // Maneja errores aquí si es necesario, por ejemplo, muestra un mensaje en la consola
                 console.log('Error al cargar los detalles del perro.');
             }
         });
     });
-
 </script>
+
+<script>
+    /**
+     * Variable global utilizada para almacenar temporalmente el nombre del perro
+     * que se mostrará en el modal de confirmación antes de eliminarlo.
+     */
+    var nombreP = "";
+
+    /**
+     * Esta función se encarga de mostrar el modal de confirmación antes de eliminar un perro.
+     * Se dispara cuando se muestra el modal.
+     */
+    $('#deleteModalConfirm').on('show.bs.modal', function (event) {
+        // Obtiene el botón que desencadenó el evento de mostrar el modal
+        var button = $(event.relatedTarget);
+
+        // Obtiene el nombre del perro desde el atributo 'data-nombre' del botón
+        var nombrePerro = button.data('nombre');
+
+        // Obtiene el modal actual
+        var modal = $(this);
+
+        // Almacena el nombre del perro en la variable global 'nombreP'
+        nombreP = nombrePerro;
+
+        // Actualiza el contenido del modal con el nombre del perro
+        modal.find('#nombrePerroEnModal').text(nombrePerro);
+    });
+</script>
+
+<script>
+    /**
+     * Esta función se encarga de eliminar un perro a través de una solicitud AJAX al servidor.
+     */
+    function deleteDog() {
+        // Obtiene el nombre del perro desde una variable previamente definida (nombreP)
+        var nombre = nombreP;
+
+        // Registra el nombre del perro en la consola (para fines de depuración)
+        console.log(nombre);
+
+        // Realiza una solicitud AJAX al servlet 'SvEliminar' para eliminar el perro
+        $.ajax({
+            url: 'SvEliminar?nombre=' + nombre, // URL del servlet con el parámetro 'nombre' para la eliminación
+            method: 'GET', // Método HTTP utilizado para la solicitud (GET en este caso)
+            success: function (data) {
+                // En caso de éxito en la solicitud:
+
+                // Cierra el modal de eliminación
+                $('#deleteModal').modal('hide');
+
+                // Recarga la página actual para reflejar los cambios
+                location.reload();
+            },
+            error: function () {
+                // En caso de error en la solicitud:
+
+                // Registra un mensaje de error en la consola (para fines de depuración)
+                console.log('Error al eliminar el perro.');
+            }
+        });
+    }
+</script>
+
+
 
 <!-- Inclución de la plantilla de footer -->
 <%@include file= "templates/footer.jsp" %>

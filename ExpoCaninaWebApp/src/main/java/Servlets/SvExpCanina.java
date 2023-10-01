@@ -47,8 +47,6 @@ public class SvExpCanina extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-          //Obtener la sesion actual
-        HttpSession session = request.getSession();
         
         //Obtener el contexto del servlet
         ServletContext context = getServletContext();
