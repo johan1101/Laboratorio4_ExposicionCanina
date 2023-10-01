@@ -9,40 +9,6 @@
 <!-- Clase contenedora -->
 <div class="container p-4">
     <div class="row">
-<<<<<<< HEAD
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Exposición canina</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="index.jsp">Inicio</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Ordenamientos
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Ordenar por nombre</a></li>
-                                <li><a class="dropdown-item" href="#">Ordenar por raza</a></li>
-                                <li><a class="dropdown-item" href="#">Ordenar por puntaje</a></li>
-                                <li><a class="dropdown-item" href="#">Ordenar por edad</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <form class="d-flex" role="search" action="SvOpciones" method="get">
-                        <input class="form-control me-2" type="search" name="nombre" id="nombre" placeholder="Nombre del perro" aria-label="Search">
-                        <button href="BuscarNombre.jsp" class="btn btn-outline-success" type="submit">Buscar</button>
-                    </form>
-                </div>
-            </div>
-        </nav>
-=======
->>>>>>> 3b5d1f11061fd93d655e61d847a73517da01ea83
         <img src="./img/front.png" alt=""> <!-- Imagen en la parte superior de la página web -->
         <!-- Columna izquierda para el formulario -->
         <div class="col-lg-4 col-md-4"> <!-- Clase de división en cuatro columnas -->
@@ -110,10 +76,46 @@
         </div> <!-- Cierre de la clase col-lg-4 col-md-4 -->
 
         <!-- Columna del lado derecho para la tabla de datos -->
-        <div class="col-lg-8 col-md-8"> <!-- Clase de división en ocho columnas -->
+        <div class="col-lg-8 col-md-8">
+            <div class="card card-body">
+                <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#">Exposición canina</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="index.jsp">Inicio</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Ordenamientos
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Ordenar por nombre</a></li>
+                                        <li><a class="dropdown-item" href="#">Ordenar por raza</a></li>
+                                        <li><a class="dropdown-item" href="#">Ordenar por puntaje</a></li>
+                                        <li><a class="dropdown-item" href="#">Ordenar por edad</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <form class="d-flex" role="search" action="SvOpciones" method="get">
+                                <input class="form-control me-2" type="search" name="nombre" id="nombre" placeholder="Nombre del perro" aria-label="Search">
+                                <button href="BuscarNombre.jsp" class="btn btn-outline-success" type="submit">Buscar</button>
+                            </form>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <br>
             <div class="card card-body"> <!-- Tarjeta de trabajo -->
                 <table class="table table-dark table-striped"> <!-- Estilo de la tabla de datos -->
+
                     <thead>
+
                         <tr>
                             <!-- Titulos de la tabla de datos -->
                             <th>Nombre</th>
@@ -145,27 +147,19 @@
                             <td><%= perro.getNombre()%></td>
                             <td><%= perro.getRaza()%></td>
                             <td><%= perro.getImagen()%></td>
-<<<<<<< HEAD
-=======
-                            <!-- <td><img src="<%= request.getContextPath()%>/imgPerros/<%= perro.getImagen()%>" style="width: 200px;" alt="Imagen de perro"></td> -->
->>>>>>> 3b5d1f11061fd93d655e61d847a73517da01ea83
                             <td><%= perro.getPuntos()%></td>
                             <td><%= perro.getEdad()%></td>
 
                             <!-- Iconos de acciones -->
                             <td>
                                 <a href="#"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalDetalles" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-eye"></i></a>
-                                <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-marker"></i></a>         
-                                <a href="#" id="nombrePerro" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModalConfirm" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-trash-alt"></i></a>
-<<<<<<< HEAD
-<<<<<<< HEAD
+                                <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModalConfirm" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-marker"></i></a>         
+                                <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModalConfirm" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-trash-alt"></i></a>
+
                             </td>                
-=======
+
                             </td>               
->>>>>>> 3b5d1f11061fd93d655e61d847a73517da01ea83
-=======
-                            </td>               
->>>>>>> 3b5d1f11061fd93d655e61d847a73517da01ea83
+
                         </tr>
 
                         <% }
@@ -204,14 +198,6 @@
     </div>
 </div>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> 3b5d1f11061fd93d655e61d847a73517da01ea83
-=======
-
->>>>>>> 3b5d1f11061fd93d655e61d847a73517da01ea83
 <!-- Modal para la confirmación de eliminar un perro -->
 <div class="modal fade" id="deleteModalConfirm" tabindex="-1" aria-labelledby="deleteModalLabelConfirm" aria-hidden="true">
     <div class="modal-dialog">
@@ -228,6 +214,158 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+<!------------------------------------Modales para editar las caracteristicas ------------------------------------>
+
+<!-- Modal para editar las caracteristicas de un perro -->
+<div class="modal fade" id="editModalConfirm" tabindex="-1" aria-labelledby="editModalLabelConfirm" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabelConfirm">Editar información de <span id="nombrePerroEnModal"></span></h5>
+            </div>
+            <div class="modal-body">
+                <div id="perro-detalles" style="display: flex; justify-content: center;">
+                    <button href="#" type="button" class="btn btn-danger" data-bs-toggle="modal" style="margin-right: 30px;" data-bs-target="#editRaza" >Editar raza</button>
+                    <button href="#" type="button" class="btn btn-danger" data-bs-toggle="modal" style="margin-right: 30px;" data-bs-target="#editFoto" >Editar foto</button>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" style="margin-right: 30px;" data-bs-target="#editModalConfirm" onclick="editDog()">Editar puntos</button>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#editModalConfirm" onclick="editDog()">Editar edad</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" style="margin-right: 30px;">Cancelar</button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para editar la raza del perro -->
+<div class="modal fade" id="editRaza" tabindex="-1" aria-labelledby="editRazaLabelConfirm" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editRazaLabelConfirm">Editar raza</span></h5>
+            </div>
+            <div class="modal-body">
+                <div id="perro-detalles" style="display: flex; justify-content: center;">
+                    <label class="visually-hidden" for="raza">Raza</label>
+                        <div class="input-group">
+                            <div class="input-group-text">Ingresa la nueva raza:</div>
+                            <input type="text" class="form-control" id="nuevaRaza" name="raza" required>
+                        </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModalConfirm" style="margin-right: 30px;">Cancelar</button>
+                <button type="button" class="btn btn-danger" onclick="editarCaracteristicas()">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para editar la foto del perro -->
+<div class="modal fade" id="editFoto" tabindex="-1" aria-labelledby="editFotoLabelConfirm" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editFotoLabelConfirm">Editar raza</span></h5>
+            </div>
+            <div class="modal-body">
+                <div id="perro-detalles" style="display: flex; justify-content: center;">
+                    <label class="visually-hidden" for="imagen">Imagen</label>
+                        <div class="input-group">
+                            <div class="input-group-text">Nueva imagen:</div>
+                            <input type="file" class="form-control" id="imagen" name="imagen" accept=".jpg, .jpeg, .png" required>
+                        </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModalConfirm" style="margin-right: 30px;">Cancelar</button>
+                <button type="button" class="btn btn-danger" onclick="editarCaracteristicas()">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!------------------------------------///Modales para editar las caracteristicas ------------------------------------>
+
+<!------------------------------------Scripts para editar las caracteristicas ------------------------------------>
+
+<script>
+    /**
+     * Esta función se encarga de eliminar un perro a través de una solicitud AJAX al servidor.
+     */
+        // Coloca tu código JavaScript aquí
+    
+    function editarCaracteristicas() {
+        // Obtiene el nombre del perro desde una variable previamente definida (nombreP)
+        var nombre = nombreEdit;
+
+            // Obtener el valor de la nueva raza ingresada por el usuario
+        var nuevaR = document.getElementById('nuevaRaza').value;
+
+        // Realiza una solicitud AJAX al servlet 'SvEliminar' para eliminar el perro
+        $.ajax({
+            url: 'SvOpciones?nombre=' + nombre + '&nuevaRaza=' + nuevaR, // URL con dos parámetros: nombre y nuevaRaza
+            method: 'GET', // Método HTTP utilizado para la solicitud (GET en este caso)
+            success: function (data) {
+                // En caso de éxito en la solicitud:
+
+                // Cierra el modal de eliminación
+                $('#editRaza').modal('hide');
+
+                // Recarga la página actual para reflejar los cambios
+                location.reload();
+            },
+            error: function () {
+                // En caso de error en la solicitud:
+
+                // Registra un mensaje de error en la consola (para fines de depuración)
+                console.log('Error al eliminar el perro.');
+            }
+        });
+    }
+
+
+</script>
+
+<!------------------------------------////Scripts para la parte de editar las caracteristicas ------------------------------------>
+
+
+
+<script>
+    /**
+     * Variable global utilizada para almacenar temporalmente el nombre del perro
+     * que se mostrará en el modal de confirmación antes de eliminarlo.
+     */
+    var nombreEditar = "";
+
+    /**
+     * Esta función se encarga de mostrar el modal de confirmación antes de eliminar un perro.
+     * Se dispara cuando se muestra el modal.
+     */
+    $('#editModalConfirm').on('show.bs.modal', function (event) {
+        // Obtiene el botón que desencadenó el evento de mostrar el modal
+        var button = $(event.relatedTarget);
+
+        // Obtiene el nombre del perro desde el atributo 'data-nombre' del botón
+        var nombrePerro = button.data('nombre');
+
+        // Obtiene el modal actual
+        var modal = $(this);
+
+        // Almacena el nombre del perro en la variable global 'nombreP'
+        nombreEdit = nombrePerro;
+
+        // Actualiza el contenido del modal con el nombre del perro
+        modal.find('#nombrePerroEnModal').text(nombrePerro);
+    });
+</script>
 
 <script>
     /**
@@ -259,8 +397,7 @@
             }
         });
     });
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 </script>
 
 <script>
@@ -324,10 +461,8 @@
             }
         });
     }
-=======
->>>>>>> 3b5d1f11061fd93d655e61d847a73517da01ea83
-=======
->>>>>>> 3b5d1f11061fd93d655e61d847a73517da01ea83
+
+
 </script>
 
 <script>
@@ -358,42 +493,6 @@
         modal.find('#nombrePerroEnModal').text(nombrePerro);
     });
 </script>
-
-<script>
-    /**
-     * Esta función se encarga de eliminar un perro a través de una solicitud AJAX al servidor.
-     */
-    function deleteDog() {
-        // Obtiene el nombre del perro desde una variable previamente definida (nombreP)
-        var nombre = nombreP;
-
-        // Registra el nombre del perro en la consola (para fines de depuración)
-        console.log(nombre);
-
-        // Realiza una solicitud AJAX al servlet 'SvEliminar' para eliminar el perro
-        $.ajax({
-            url: 'SvEliminar?nombre=' + nombre, // URL del servlet con el parámetro 'nombre' para la eliminación
-            method: 'GET', // Método HTTP utilizado para la solicitud (GET en este caso)
-            success: function (data) {
-                // En caso de éxito en la solicitud:
-
-                // Cierra el modal de eliminación
-                $('#deleteModal').modal('hide');
-
-                // Recarga la página actual para reflejar los cambios
-                location.reload();
-            },
-            error: function () {
-                // En caso de error en la solicitud:
-
-                // Registra un mensaje de error en la consola (para fines de depuración)
-                console.log('Error al eliminar el perro.');
-            }
-        });
-    }
-</script>
-
-
 
 <!-- Inclución de la plantilla de footer -->
 <%@include file= "templates/footer.jsp" %>

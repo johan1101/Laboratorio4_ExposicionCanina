@@ -5,10 +5,4 @@ Servlets\SvExpCanina.class
 com\mundo\expocaninawebapp\JAXRSConfiguration.class
 com\mundo\expocaninawebapp\Perro.class
 Servlets\SvEliminar.class
-<<<<<<< HEAD
-<<<<<<< HEAD
 Servlets\SvOpciones.class
-=======
->>>>>>> 3b5d1f11061fd93d655e61d847a73517da01ea83
-=======
->>>>>>> 3b5d1f11061fd93d655e61d847a73517da01ea83

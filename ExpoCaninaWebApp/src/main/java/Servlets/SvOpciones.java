@@ -1,8 +1,14 @@
 
 package Servlets;
 
+import com.mundo.expocaninawebapp.Perro;
+import com.mundo.expocaninawebapp.Serializacion;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -54,11 +60,39 @@ public class SvOpciones extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+          // Llama al método de procesamiento principal
+        processRequest(request, response);
+
+        // Obtiene el contexto del servlet
+        ServletContext context = getServletContext();
+
+        // Obtiene el nombre del perro a eliminar desde los parámetros de la solicitud
+        String nombreEliminar = request.getParameter("nombre");
         
-            String nombre = request.getParameter("nombre");
-            request.setAttribute("nombre", nombre);
-            // Redireccionar a la pagina web destino
-            request.getRequestDispatcher("BuscarNombre.jsp").forward(request, response);
+        String nuevaRaza = request.getParameter("nuevaRaza");
+        
+        // Crea una lista para almacenar objetos de la clase "Perro"
+        ArrayList<Perro> misPerros = new ArrayList<>();
+
+        try {
+            // Carga la lista de perros desde un archivo utilizando el contexto del servlet
+            Serializacion.leerArchivo(misPerros, context);
+        } catch (ClassNotFoundException ex) {
+            // Maneja una excepción en caso de error al leer el archivo
+            Logger.getLogger(SvExpCanina.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Llama al método "eliminarPerro" de la clase "exposicionPerros" para eliminar el perro
+         for (int i = 0; i < misPerros.size(); i++) {
+            Perro perro = misPerros.get(i);
+
+            // Comprueba si el nombre del perro coincide con el nombre proporcionado
+            if (perro.getNombre().equals(nombreEliminar)) {
+                perro.setRaza(nuevaRaza);
+            }
+         }
+        // Guarda la lista actualizada en un archivo
+        Serializacion.escribirArchivo(misPerros, context);
     }
 
     /**
