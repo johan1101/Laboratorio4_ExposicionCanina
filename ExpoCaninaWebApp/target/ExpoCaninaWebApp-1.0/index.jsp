@@ -9,6 +9,7 @@
 <!-- Clase contenedora -->
 <div class="container p-4">
     <div class="row">
+<<<<<<< HEAD
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">Exposición canina</a>
@@ -40,6 +41,8 @@
                 </div>
             </div>
         </nav>
+=======
+>>>>>>> 3b5d1f11061fd93d655e61d847a73517da01ea83
         <img src="./img/front.png" alt=""> <!-- Imagen en la parte superior de la página web -->
         <!-- Columna izquierda para el formulario -->
         <div class="col-lg-4 col-md-4"> <!-- Clase de división en cuatro columnas -->
@@ -142,6 +145,10 @@
                             <td><%= perro.getNombre()%></td>
                             <td><%= perro.getRaza()%></td>
                             <td><%= perro.getImagen()%></td>
+<<<<<<< HEAD
+=======
+                            <!-- <td><img src="<%= request.getContextPath()%>/imgPerros/<%= perro.getImagen()%>" style="width: 200px;" alt="Imagen de perro"></td> -->
+>>>>>>> 3b5d1f11061fd93d655e61d847a73517da01ea83
                             <td><%= perro.getPuntos()%></td>
                             <td><%= perro.getEdad()%></td>
 
@@ -151,7 +158,11 @@
                                 <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-marker"></i></a>         
                                 <a href="#" id="nombrePerro" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModalConfirm" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-trash-alt"></i></a>
 <<<<<<< HEAD
+<<<<<<< HEAD
                             </td>                
+=======
+                            </td>               
+>>>>>>> 3b5d1f11061fd93d655e61d847a73517da01ea83
 =======
                             </td>               
 >>>>>>> 3b5d1f11061fd93d655e61d847a73517da01ea83
@@ -194,6 +205,10 @@
 </div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3b5d1f11061fd93d655e61d847a73517da01ea83
 =======
 
 >>>>>>> 3b5d1f11061fd93d655e61d847a73517da01ea83
@@ -244,6 +259,7 @@
             }
         });
     });
+<<<<<<< HEAD
 <<<<<<< HEAD
 </script>
 
@@ -308,6 +324,8 @@
             }
         });
     }
+=======
+>>>>>>> 3b5d1f11061fd93d655e61d847a73517da01ea83
 =======
 >>>>>>> 3b5d1f11061fd93d655e61d847a73517da01ea83
 </script>
