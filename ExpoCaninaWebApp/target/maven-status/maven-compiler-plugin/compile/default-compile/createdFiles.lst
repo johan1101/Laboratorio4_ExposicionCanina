@@ -1,0 +1,11 @@
+com\mundo\expocaninawebapp\Serializacion.class
+com\mundo\expocaninawebapp\resources\JavaEE8Resource.class
+com\mundo\expocaninawebapp\exposicionPerros.class
+Servlets\SvExpCanina.class
+com\mundo\expocaninawebapp\JAXRSConfiguration.class
+com\mundo\expocaninawebapp\Perro.class
+Servlets\SvEliminar.class
+<<<<<<< HEAD
+Servlets\SvOpciones.class
+=======
+>>>>>>> 3b5d1f11061fd93d655e61d847a73517da01ea83
