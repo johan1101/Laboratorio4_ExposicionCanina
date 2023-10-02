@@ -59,10 +59,10 @@ public class SvExpCanina extends HttpServlet {
         Perro perro = buscarPerroPorNombre(nombre); // Implementa la lógica para buscar el perro en tu lista de perros
         if (perro != null) {
             // Genera la respuesta HTML con los detalles del perro
-            String perroHtml = "<h2>Nombre: " + perro.getNombre() + "</h2>"
+            String perroHtml = "<h2>Nombre: " + perro.getNombre() + "</h2><br>"
                     + "<p>Raza: " + perro.getRaza() + "</p>"
                     + "<p>Puntos: " + perro.getPuntos() + "</p>"
-                    + "<p>Edad (meses): " + perro.getEdad() + "</p>"
+                    + "<p>Edad (años): " + perro.getEdad() + "</p>"
                     + "<img src='imgPerros/" + perro.getImagen() + "'alt='" + perro.getNombre() + "' width='100%'/>";
 
             response.setContentType("text/html");
