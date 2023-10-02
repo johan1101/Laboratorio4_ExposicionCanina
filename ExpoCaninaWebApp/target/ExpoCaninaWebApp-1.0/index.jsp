@@ -334,20 +334,14 @@
                     <h5 class="modal-title" id="editFotoLabelConfirm">Editar foto</span></h5>
                 </div>
                 <div class="modal-body">
+
                     <div class="input-group">
                         <div class="input-group-text">Nueva imagen:</div>
                         <input type="file" class="form-control" id="imagen" name="imagen" accept=".jpg, .jpeg, .png" required>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModalConfirm" style="margin-right:10px;">Cancelar</button>
-                        <div class="input-group">
-                            <div class="input-group-text">Nueva imagen:</div>
-                            <input type="file" class="form-control" id="imagen" name="imagen" accept=".jpg, .jpeg, .png" required>
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModalConfirm" style="margin-right: 30px;">Cancelar</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModalConfirm" style="margin-right: 10px;">Cancelar</button>
                     <button type="submit" class="btn btn-danger" onclick="editarFoto()">Actualizar</button>
                 </div>
             </form>
@@ -361,24 +355,17 @@
 
 <script>
     function editarFoto() {
-
         var form = document.getElementById("fileUploadForm");
-
         // Verificar la validez del formulario
         if (form.checkValidity()) {
-
             // Obtén el formulario
             var form = document.getElementById("fileUploadForm");
-
             // Construye un objeto FormData con el formulario
             var formData = new FormData(form);
-
             // Obtiene el nombre del perro
             var nombre = nombreEdit; // Asegúrate de que esta variable esté definida
-
             // Agrega el nombre como un campo en el formData
             formData.append('nombre', nombre);
-
             // Realiza una solicitud AJAX al servlet para editar la foto del perro
             $.ajax({
                 url: 'SvOpciones', // URL del servlet que manejará la edición de la foto
@@ -390,7 +377,6 @@
                     // En caso de éxito en la solicitud:
                     // Cierra el modal de edición de foto
                     $('#editFoto').modal('hide');
-
                     // Recarga la página actual para reflejar los cambios
                     location.reload();
                 },
@@ -404,6 +390,9 @@
             // Pedira que se ingrese un dato
         }
     }
+</script>
+
+<script>
 
     /**
      * Esta función se encarga de eliminar un perro a través de una solicitud AJAX al servidor.
@@ -637,6 +626,9 @@
         } else {
             $("#mostrarTablaCompleta").hide();
         }
+        
+        // Limpiar el campo de búsqueda (si es necesario)
+        document.getElementById("inputNombre").value = "";
     }
 
     function mostrarTablaCompleta() {
