@@ -16,7 +16,6 @@
                 <!-- Acción que conecta con el servlet llamado SvExpCanina por metodo POST-->
                 <form action="SvExpCanina" method="POST" enctype="multipart/form-data"> <!-- Esta sentencia es para subir archivos -->
                     <h3>Insertar nuevo perro</h3><br> <!-- Titulo del formulario para insertar un perro -->
-
                     <!-- Formulario que recibe todos los datos para insertar un nuevo perro -->
                     <div class="col-auto">
                         <label class="visually-hidden" for="nombre">Nombre</label>
@@ -102,9 +101,9 @@
                                     </ul>
                                 </li>
                             </ul>
-                            <form class="d-flex" role="search" action="SvOpciones" method="get">
-                                <input class="form-control me-2" type="search" name="nombre" id="nombre" placeholder="Nombre del perro" aria-label="Search">
-                                <button href="BuscarNombre.jsp" class="btn btn-outline-success" type="submit">Buscar</button>
+                            <form class="d-flex" role="search" enctype="multipart/form-data">
+                                <input class="form-control me-2" type="search" id="inputNombre" placeholder="Nombre del perro" aria-label="Search">
+                                <button href="#" type="button" class="btn btn-outline-success" onclick="buscarPerro()">Buscar</button>
                             </form>
                         </div>
                     </div>
@@ -113,9 +112,7 @@
             <br>
             <div class="card card-body"> <!-- Tarjeta de trabajo -->
                 <table class="table table-dark table-striped"> <!-- Estilo de la tabla de datos -->
-
                     <thead>
-
                         <tr>
                             <!-- Titulos de la tabla de datos -->
                             <th>Nombre</th>
@@ -155,11 +152,7 @@
                                 <a href="#"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalDetalles" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-eye"></i></a>
                                 <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModalConfirm" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-marker"></i></a>         
                                 <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModalConfirm" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-trash-alt"></i></a>
-
-                            </td>                
-
                             </td>               
-
                         </tr>
 
                         <% }
@@ -173,6 +166,9 @@
                         %>
                     </tbody>
                 </table> <!-- Cierre de la etiqueta table-->
+                <center>
+                    <button class="btn btn-success" id="mostrarTablaCompleta" onclick="mostrarTablaCompleta()" style="display: none;">Mostrar Tabla Completa</button>
+                </center>
             </div> <!-- Cierre de la clase card card-body -->
         </div> <!-- Cierre de la clase col-lg-8 col-md-8 -->
     </div> <!-- Cierre de la clase row -->
@@ -200,7 +196,7 @@
 
 <!-- Modal para la confirmación de eliminar un perro -->
 <div class="modal fade" id="deleteModalConfirm" tabindex="-1" aria-labelledby="deleteModalLabelConfirm" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteModalLabelConfirm">¿Estás seguro de que quieres eliminar  a <span id="nombrePerroEnModal"></span>?</h5>
@@ -215,29 +211,25 @@
     </div>
 </div>
 
-
-
-
-
 <!------------------------------------Modales para editar las caracteristicas ------------------------------------>
 
 <!-- Modal principal para editar las caracteristicas de un perro -->
 <div class="modal fade" id="editModalConfirm" tabindex="-1" aria-labelledby="editModalLabelConfirm" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editModalLabelConfirm">Editar información de <span id="nombrePerroEnModal"></span></h5>
             </div>
             <div class="modal-body">
                 <div id="perro-detalles" style="display: flex; justify-content: center;">
-                    <button href="#" type="button" class="btn btn-danger" data-bs-toggle="modal" style="margin-right: 30px;" data-bs-target="#editRaza" >Editar raza</button>
-                    <button href="#" type="button" class="btn btn-danger" data-bs-toggle="modal" style="margin-right: 30px;" data-bs-target="#editFoto" >Editar foto</button>
-                    <button href="#" type="button" class="btn btn-danger" data-bs-toggle="modal" style="margin-right: 30px;" data-bs-target="#editPuntos" >Editar puntos</button>
-                    <button href="#" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#editEdad" >Editar edad</button>
+                    <button href="#" type="button" class="btn btn-success" data-bs-toggle="modal" style="margin-right: 30px;" data-bs-target="#editRaza" >Editar raza</button>
+                    <button href="#" type="button" class="btn btn-success" data-bs-toggle="modal" style="margin-right: 30px;" data-bs-target="#editFoto" >Editar foto</button>
+                    <button href="#" type="button" class="btn btn-success" data-bs-toggle="modal" style="margin-right: 30px;" data-bs-target="#editPuntos" >Editar puntos</button>
+                    <button href="#" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editEdad" >Editar edad</button>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" style="margin-right: 30px;">Cancelar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="margin-right: 30px;">Cancelar</button>
             </div>
         </div>
     </div>
@@ -245,7 +237,7 @@
 
 <!-- Modal para editar la edad del perro -->
 <div class="modal fade" id="editEdad" tabindex="-1" aria-labelledby="editEdadLabelConfirm" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form id="miFormularioEdad">
                 <div class="modal-header">
@@ -261,7 +253,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModalConfirm" style="margin-right: 30px;">Cancelar</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModalConfirm" style="margin-right:10px;">Cancelar</button>
                     <button type="submit" class="btn btn-danger" onclick="editarCaracteristicas('miFormularioEdad')">Actualizar</button>
                 </div>
             </form>
@@ -269,10 +261,9 @@
     </div>
 </div>
 
-
 <!-- Modal para editar la raza del perro -->
 <div class="modal fade" id="editRaza" tabindex="-1" aria-labelledby="editRazaLabelConfirm" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form id="miFormularioRaza">
                 <div class="modal-header">
@@ -288,7 +279,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModalConfirm" style="margin-right: 30px;">Cancelar</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModalConfirm" style="margin-right:10px;">Cancelar</button>
                     <button type="submit" class="btn btn-danger" onclick="editarCaracteristicas('miFormularioRaza')">Actualizar</button>
                 </div>
             </form>
@@ -298,7 +289,7 @@
 
 <!-- Modal para editar los puntos del perro -->
 <div class="modal fade" id="editPuntos" tabindex="-1" aria-labelledby="editPuntosLabelConfirm" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form id="miFormularioPuntos">
                 <div class="modal-header">
@@ -326,7 +317,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModalConfirm" style="margin-right: 30px;">Cancelar</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModalConfirm" style="margin-right:10px;">Cancelar</button>
                     <button type="submit" class="btn btn-danger" onclick="editarCaracteristicas('miFormularioPuntos')">Actualizar</button>
                 </div>
             </form>
@@ -336,14 +327,20 @@
 
 <!-- Modal para editar la foto del perro -->
 <div class="modal fade" id="editFoto" tabindex="-1" aria-labelledby="editFotoLabelConfirm" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form id="fileUploadForm" enctype="multipart/form-data">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editFotoLabelConfirm">Editar foto</span></h5>
                 </div>
                 <div class="modal-body">
-                    
+                    <div class="input-group">
+                        <div class="input-group-text">Nueva imagen:</div>
+                        <input type="file" class="form-control" id="imagen" name="imagen" accept=".jpg, .jpeg, .png" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModalConfirm" style="margin-right:10px;">Cancelar</button>
                         <div class="input-group">
                             <div class="input-group-text">Nueva imagen:</div>
                             <input type="file" class="form-control" id="imagen" name="imagen" accept=".jpg, .jpeg, .png" required>
@@ -358,9 +355,10 @@
     </div>
 </div>
 
-<!------------------------------------///Modales para editar las caracteristicas ------------------------------------>
+<!------------------------------------Modales para editar las caracteristicas ------------------------------------>
 
 <!------------------------------------Scripts para editar las caracteristicas ------------------------------------>
+
 <script>
     function editarFoto() {
 
@@ -406,9 +404,7 @@
             // Pedira que se ingrese un dato
         }
     }
-</script>
 
-<script>
     /**
      * Esta función se encarga de eliminar un perro a través de una solicitud AJAX al servidor.
      */
@@ -450,13 +446,9 @@
             // Pedira que se ingrese un dato
         }
     }
-
-
 </script>
 
 <!------------------------------------////Scripts para la parte de editar las caracteristicas ------------------------------------>
-
-
 
 <script>
     /**
@@ -581,8 +573,6 @@
             }
         });
     }
-
-
 </script>
 
 <script>
@@ -612,6 +602,53 @@
         // Actualiza el contenido del modal con el nombre del perro
         modal.find('#nombrePerroEnModal').text(nombrePerro);
     });
+</script>
+
+<script>
+    /**
+     * Función para buscar y filtrar perros en una tabla HTML.
+     * Esta función se activa cuando el usuario hace clic en el botón de búsqueda.
+     */
+    function buscarPerro() {
+        // Variable que obtiene el valor ingresado por el usuario en el campo de entrada y convertirlo a minúsculas
+        var inputNombre = document.getElementById("inputNombre").value.toLowerCase();
+        // Variable para rastrear si se muestran filas
+        var filasMostradas = false;
+
+        // Iterar a través de cada fila (<tr>) en el cuerpo de la tabla (<tbody>)
+        $("tbody tr").each(function () {
+            // Obtener el nombre del perro en la primera columna (<td>) de la fila y convertirlo a minúsculas
+            var nombrePerro = $(this).find("td:first").text().toLowerCase();
+
+            // Verificar si el nombre del perro contiene el valor ingresado por el usuario
+            if (nombrePerro.includes(inputNombre)) {
+                // Si es así, mostrar la fila
+                $(this).show();
+                filasMostradas = true; // Al menos una fila se muestra
+            } else {
+                // Si no, ocultar la fila
+                $(this).hide();
+            }
+        });
+
+        // Mostrar el botón solo si al menos una fila se muestra
+        if (filasMostradas) {
+            $("#mostrarTablaCompleta").show();
+        } else {
+            $("#mostrarTablaCompleta").hide();
+        }
+    }
+
+    function mostrarTablaCompleta() {
+        // Mostrar todas las filas ocultas en el cuerpo de la tabla
+        $("tbody tr").show();
+
+        // Ocultar nuevamente el botón "Mostrar Tabla Completa"
+        $("#mostrarTablaCompleta").hide();
+
+        // Limpiar el campo de búsqueda (si es necesario)
+        document.getElementById("inputNombre").value = "";
+    }
 </script>
 
 <!-- Inclución de la plantilla de footer -->
