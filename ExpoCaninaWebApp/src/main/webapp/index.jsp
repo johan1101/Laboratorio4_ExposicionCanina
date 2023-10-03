@@ -70,7 +70,7 @@
                         </div>
                     </div>
                     <!-- Botón de tipo submit que permite insertar un perro -->
-                    <br><button type="submit" class="btn btn-success">Insertar Perro</button>
+                    <br><button type="submit" class="btn btn-success" onclick="verificarNombre()">Insertar Perro</button>
                 </form> <!-- Cierre del form -->
             </div> <!-- Cierre de la clase card card-body -->
         </div> <!-- Cierre de la clase col-lg-4 col-md-4 -->
@@ -100,7 +100,17 @@
                                         <li><a class="dropdown-item" href="#" onclick="ordenarAlfabeticamente('raza')">Ordenar por raza</a></li>
                                         <li><a class="dropdown-item" href="#" onclick="ordenarAlfabeticamente('puntos')" >Ordenar por puntaje</a></li>
                                         <li><a class="dropdown-item" href="#" onclick="ordenarAlfabeticamente('edad')">Ordenar por edad</a></li>
-                                        <li><hr class="dropdown-divider"></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        &nbsp; <!-- Espacio en blanco -->
+                                        Buscar
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Perro ganador</a></li>
+                                        <li><a class="dropdown-item" href="#">Perro con menor puntuación</a></li>
+                                        <li><a class="dropdown-item" href="#">Perro más viejo</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -115,9 +125,7 @@
             <br>
             <div class="card card-body"> <!-- Tarjeta de trabajo -->
                 <table class="table table-dark table-striped"> <!-- Estilo de la tabla de datos -->
-
                     <thead>
-
                         <tr>
                             <!-- Titulos de la tabla de datos -->
                             <th>Nombre</th>
@@ -157,19 +165,14 @@
                                 <a href="#"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalDetalles" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-eye"></i></a>
                                 <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModalConfirm" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-marker"></i></a>         
                                 <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModalConfirm" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-trash-alt"></i></a>
-
                             </td>                
-
-                            </td>               
-
                         </tr>
-
                         <% }
                             } else {
                                 // Si el ArrayList esta vacio envia un mensaje informando al usuario
                                 out.println("<tr>");
                                 // colspan="6" Sirve para ocupar todas las columnas de la tabla de datos
-                                out.println("<td colspan='6'>No hay perros registrados</td>");
+                                out.println("<td colspan='6' align='center' valign='middle'>No hay perros registrados</td>");
                                 out.println("<tr>");
                             }
                         %>
@@ -182,6 +185,9 @@
         </div> <!-- Cierre de la clase col-lg-8 col-md-8 -->
     </div> <!-- Cierre de la clase row -->
 </div> <!-- Cierre de la clase container p-4 -->
+
+
+<!----------------------------------------------------- VENTANAS MODALES ----------------------------------------------------->
 
 <!-- Modal para la visualización del perro -->
 <div class="modal fade" id="exampleModalDetalles" tabindex="-1" aria-labelledby="exampleModalLabelDetalles" aria-hidden="true">
@@ -220,11 +226,27 @@
     </div>
 </div>
 
+<!-- Modal de mensaje para informar que no hay perros registrados en la búsqueda -->
+<div class="modal fade" id="mensajeNoPerros" tabindex="-1" aria-labelledby="mensajeNoPerrosLabelConfirm" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mensajeNoPerrosLabelConfirm">Mensaje de búsqueda</h5>
+            </div>
+            <div class="modal-body">
+                <!-- Imagen de error en la busqueda -->
+                <img src="https://thumbs.dreamstime.com/b/p%C3%A1gina-web-de-error-no-encontrada-acceso-al-sitio-conexi%C3%B3n-internet-incorrecta-disponible-descargada-dise%C3%B1o-descargado-con-275612651.jpg" alt="alt" width="100%"/>
+                <!-- Mensaje que informa al usuario que no se encontro el perro buscado -->
+                <h5 align="center">No se encontro ningún perro con ese nombre</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="mostrarTablaCompleta()">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-
-
-
-<!------------------------------------Modales para editar las caracteristicas ------------------------------------>
+<!------------------------------------------ Modales para editar las caracteristicas ---------------------------------------------->
 
 <!-- Modal principal para editar las caracteristicas de un perro -->
 <div class="modal fade" id="editModalConfirm" tabindex="-1" aria-labelledby="editModalLabelConfirm" aria-hidden="true">
@@ -363,9 +385,10 @@
     </div>
 </div>
 
-<!------------------------------------///Modales para editar las caracteristicas ------------------------------------>
+<!----------------------------------------- ///Modales para editar las caracteristicas ------------------------------------------>
 
-<!------------------------------------Scripts para editar ordenar la lista ------------------------------------>
+
+<!------------------------------------------- Scripts para editar ordenar la lista ---------------------------------------------->
 
 <script>
     function ordenarAlfabeticamente(opcion) {
@@ -391,7 +414,8 @@
     }
 </script>
 
-<!------------------------------------Scripts para editar las caracteristicas ------------------------------------>
+<!-------------------------------------------- Scripts para editar las caracteristicas ------------------------------------------>
+
 <script>
     function editarFoto() {
 
@@ -485,9 +509,7 @@
 
 </script>
 
-<!------------------------------------////Scripts para la parte de editar las caracteristicas ------------------------------------>
-
-
+<!---------------------------------------Scripts para la parte de editar las caracteristicas ------------------------------------>
 
 <script>
     /**
@@ -544,7 +566,7 @@
                 // La función que se ejecuta en caso de error durante la solicitud AJAX
 
                 // Maneja errores aquí si es necesario, por ejemplo, muestra un mensaje en la consola
-                console.log('Error al cargar los detalles del perro.');
+                console.log('Error al cargar los detalles del perro');
             }
         });
     });
@@ -645,12 +667,12 @@
     });
 </script>
 
-<!------------------------------------Scripts para buscar perro ------------------------------------>
+<!------------------------------------------------- Scripts para buscar perro ----------------------------------------------->
 
 <script>
     /**
-     * Función para buscar y filtrar perros en una tabla HTML.
-     * Esta función se activa cuando el usuario hace clic en el botón de búsqueda.
+     * Función utlizada para buscar un perro por medio de la barra de busqueda en el Navbar
+     * Al presionar el botón buscar mustra el perro buscado, en caso de que no este registrado muestra una ventana modal
      */
     function buscarPerro() {
         // Variable que obtiene el valor ingresado por el usuario en el campo de entrada y convertirlo a minúsculas
@@ -674,17 +696,21 @@
             }
         });
 
-        // Mostrar el botón solo si al menos una fila se muestra
+        // Mostrar el botón de "Mostrar tabla completa" 
         if (filasMostradas) {
-            $("#mostrarTablaCompleta").show();
+            $("#mostrarTablaCompleta").show(); // Mostrar el botón de mostrar tabla completa
         } else {
-            $("#mostrarTablaCompleta").hide();
+            mostrarModalNoPerros();
         }
 
         // Limpiar el campo de búsqueda (si es necesario)
         document.getElementById("inputNombre").value = "";
     }
 
+    /**
+     * Función que muestra la tabla completa nuevamente despúes de realizar la busqueda de un perro especifico
+     * En caso de no encontrar el perro, el botón aceptar del modal muestra la tabla completa nuevamente
+     */
     function mostrarTablaCompleta() {
         // Mostrar todas las filas ocultas en el cuerpo de la tabla
         $("tbody tr").show();
@@ -695,9 +721,14 @@
         // Limpiar el campo de búsqueda (si es necesario)
         document.getElementById("inputNombre").value = "";
     }
+
+    // Función para mostrar el modal de mensaje cuando no se encuentren perros registrados
+    function mostrarModalNoPerros() {
+        $("#mensajeNoPerros").modal("show");
+    }
 </script>
 
-<!------------------------------------////Scripts para buscar perro ------------------------------------>
+<!---------------------------------------------- ////Scripts para buscar perro ------------------------------------------------->
 
 <!-- Inclución de la plantilla de footer -->
 <%@include file= "templates/footer.jsp" %>
