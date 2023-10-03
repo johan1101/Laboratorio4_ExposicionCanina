@@ -5,6 +5,7 @@ Servlets\SvExpCanina.class
 Servlets\SvEliminar$4.class
 com\mundo\expocaninawebapp\JAXRSConfiguration.class
 com\mundo\expocaninawebapp\Perro.class
+Servlets\SvBuscar.class
 Servlets\SvOpciones.class
 Servlets\SvEliminar$3.class
 Servlets\SvEliminar$1.class

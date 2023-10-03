@@ -91,28 +91,28 @@
                                 <li class="nav-item">
                                     <a class="nav-link active" aria-current="page" href="index.jsp"></a>
                                 </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Ordenamientos
+                                <div class="dropdown" style="margin-right: 30px;">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Ordenar por
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#" onclick="ordenarAlfabeticamente('nombre')">Ordenar por nombre</a></li>
-                                        <li><a class="dropdown-item" href="#" onclick="ordenarAlfabeticamente('raza')">Ordenar por raza</a></li>
-                                        <li><a class="dropdown-item" href="#" onclick="ordenarAlfabeticamente('puntos')" >Ordenar por puntaje</a></li>
-                                        <li><a class="dropdown-item" href="#" onclick="ordenarAlfabeticamente('edad')">Ordenar por edad</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="ordenarPor('nombre')">Ordenar por nombre</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="ordenarPor('raza')">Ordenar por raza</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="ordenarPor('puntos')" >Ordenar por puntaje</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="ordenarPor('edad')">Ordenar por edad</a></li>
                                     </ul>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        &nbsp; <!-- Espacio en blanco -->
+                                </div>
+                                <div class="dropdown" style="margin-right: 30px;">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Buscar
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Perro ganador</a></li>
-                                        <li><a class="dropdown-item" href="#">Perro con menor puntuación</a></li>
-                                        <li><a class="dropdown-item" href="#">Perro más viejo</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="buscarPor('puntajeMayor')">Puntaje más alto</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="buscarPor('puntajeMenor')">Puntaje más bajo</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="buscarPor('edadMayor')" >Perro más viejo</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="buscarPor('edadMenor')">Perro más joven</a></li>
                                     </ul>
-                                </li>
+                                </div>
                             </ul>
                             <form class="d-flex" role="search" enctype="multipart/form-data">
                                 <input class="form-control me-2" type="search" id="inputNombre" placeholder="Nombre del perro" aria-label="Search">
@@ -141,45 +141,68 @@
                             //Crear una lista para almacenar objetos Perro
                             ArrayList<Perro> misPerros = new ArrayList<>();
 
+                            //Crear una lista para almacenar objetos Perro
+                            ArrayList<Perro> buscar = new ArrayList<>();
+
+                            //Crear una lista para almacenar objetos Perro
+                            ArrayList<Perro> listaVacia = new ArrayList<>();
+
                             //Obtener el contexto del servlet
                             ServletContext context = getServletContext();
 
+                            Serializacion.leerArchivoBusqueda(buscar, context);
+
+                            if (!buscar.isEmpty()) {
+                                Serializacion.leerArchivoBusqueda(misPerros, context);
+                                Serializacion.escribirBusqueda(listaVacia, context);
+                        %>
+                    <script>
+                        $(document).ready(function () {
+                            activarTabla();
+                        });
+                    </script>
+                    <%
+                        } else {
                             //Cargar la lista de perros desde un archivo
                             Serializacion.leerArchivo(misPerros, context);
+                        }
 
-                            //Condicional que verifica si la lista de perros no esta vacia
-                            if (!misPerros.isEmpty()) {
-                                for (Perro perro : misPerros) {
-                        %>                   
-                        <tr>
+                        //Condicional que verifica si la lista de perros no esta vacia
+                        if (!misPerros.isEmpty()) {
+                            for (Perro perro : misPerros) {
+                    %>                   
+                    <tr>
 
-                            <!-- Muestra los datos ingresados en la tabla -->
-                            <td><%= perro.getNombre()%></td>
-                            <td><%= perro.getRaza()%></td>
-                            <td><%= perro.getImagen()%></td>
-                            <td><%= perro.getPuntos()%></td>
-                            <td><%= perro.getEdad()%></td>
+                        <!-- Muestra los datos ingresados en la tabla -->
+                        <td><%= perro.getNombre()%></td>
+                        <td><%= perro.getRaza()%></td>
+                        <td><%= perro.getImagen()%></td>
+                        <td><%= perro.getPuntos()%></td>
+                        <td><%= perro.getEdad()%></td>
 
-                            <!-- Iconos de acciones -->
-                            <td>
-                                <a href="#"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalDetalles" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-eye"></i></a>
-                                <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModalConfirm" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-marker"></i></a>         
-                                <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModalConfirm" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-trash-alt"></i></a>
-                            </td>                
-                        </tr>
-                        <% }
-                            } else {
-                                // Si el ArrayList esta vacio envia un mensaje informando al usuario
-                                out.println("<tr>");
-                                // colspan="6" Sirve para ocupar todas las columnas de la tabla de datos
-                                out.println("<td colspan='6' align='center' valign='middle'>No hay perros registrados</td>");
-                                out.println("<tr>");
-                            }
-                        %>
+                        <!-- Iconos de acciones -->
+                        <td>
+                            <a href="#"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalDetalles" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-eye"></i></a>
+                            <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModalConfirm" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-marker"></i></a>         
+                            <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModalConfirm" data-nombre="<%=perro.getNombre()%>"><i class="fa fa-trash-alt"></i></a>
+                        </td>                
+                    </tr>
+                    <% }
+                        } else {
+                            // Si el ArrayList esta vacio envia un mensaje informando al usuario
+                            out.println("<tr>");
+                            // colspan="6" Sirve para ocupar todas las columnas de la tabla de datos
+                            out.println("<td colspan='6' align='center' valign='middle'>No hay perros registrados</td>");
+                            out.println("<tr>");
+                        }
+                    %>
                     </tbody>
                 </table> <!-- Cierre de la etiqueta table-->
                 <center>
                     <button class="btn btn-success" id="mostrarTablaCompleta" onclick="mostrarTablaCompleta()" style="display: none;">Mostrar Tabla Completa</button>
+                </center>
+                <center>
+                    <button class="btn btn-success" id="mostrarTabla" onclick="mostrarTabla()" style="display: none;">Mostrar Tabla Completa</button>
                 </center>
             </div> <!-- Cierre de la clase card card-body -->
         </div> <!-- Cierre de la clase col-lg-8 col-md-8 -->
@@ -391,7 +414,7 @@
 <!------------------------------------------- Scripts para editar ordenar la lista ---------------------------------------------->
 
 <script>
-    function ordenarAlfabeticamente(opcion) {
+    function ordenarPor(opcion) {
 
         var ordenarPor = opcion;
 
@@ -668,6 +691,36 @@
 </script>
 
 <!------------------------------------------------- Scripts para buscar perro ----------------------------------------------->
+
+<script>
+    function buscarPor(opcion) {
+        var buscarPor = opcion;
+
+        // Realiza una solicitud AJAX al servlet para realizar la ordenación alfabética
+        $.ajax({
+            url: 'SvBuscar?opcion=' + buscarPor, // Agrega el parámetro activarTabla=true
+            method: 'GET', // Utiliza POST u otro método HTTP según corresponda
+            success: function (data) {
+                // En caso de éxito en la solicitud:
+                location.reload();
+            },
+            error: function () {
+                // En caso de error en la solicitud:
+                // Registra un mensaje de error en la consola (para fines de depuración)
+                console.log('Error al realizar la búsqueda');
+            }
+        });
+    }
+
+    function activarTabla() {
+            $("#mostrarTabla").show();
+        }
+        
+        function mostrarTabla(){
+            location.reload();
+        }
+   
+</script>
 
 <script>
     /**
