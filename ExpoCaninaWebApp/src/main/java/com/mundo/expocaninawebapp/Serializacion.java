@@ -44,6 +44,24 @@ public class Serializacion {
         }
     }
     
+        public static void escribirEncontrado(ArrayList<Perro> misPerros, ServletContext context) throws FileNotFoundException, IOException {
+        // Ruta relativa y absoluta del archivo de datos serializados
+        String rutaRelativa = "/data/encontrado.ser";
+        String rutaAbsoluta = context.getRealPath(rutaRelativa);
+        File archivo = new File(rutaAbsoluta);
+
+        try (FileOutputStream fos = new FileOutputStream(archivo); ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+            // Serializar y escribir cada objeto Perro en el archivo
+            for (Perro perro : misPerros) {
+                oos.writeObject(perro);
+            }
+        } catch (IOException e) {
+            System.out.println("Error al escribir el archivo de datos.");
+        }
+    }
+    
+    
+    
        public static void escribirModal(ArrayList<Perro> misPerros, ServletContext context) throws FileNotFoundException, IOException {
         // Ruta relativa y absoluta del archivo de datos serializados
         String rutaRelativa = "/data/modal.ser";
@@ -160,6 +178,40 @@ public class Serializacion {
        public static void leerModalError(ArrayList<Perro> misPerros, ServletContext context) throws IOException, ClassNotFoundException {
         // Ruta relativa y absoluta del archivo de datos serializados
         String rutaRelativa = "/data/modal.ser";
+        String rutaAbsoluta = context.getRealPath(rutaRelativa);
+        File archivo = new File(rutaAbsoluta);
+
+        // Verificar si el archivo está vacío antes de intentar leerlo
+        if (archivo.length() == 0) {
+            System.out.println("El archivo está vacío, no se realizará la lectura.");
+            return; // Salir del método sin realizar la lectura
+        }
+
+        try (FileInputStream fis = new FileInputStream(archivo); ObjectInputStream ois = new ObjectInputStream(fis)) {
+
+            // Limpiar la lista actual antes de agregar nuevos elementos
+            misPerros.clear();
+
+            while (true) {
+                try {
+                    // Leer un objeto Perro del archivo
+                    Perro perro = (Perro) ois.readObject();
+
+                    // Agregar el objeto Perro a la lista
+                    misPerros.add(perro);
+                } catch (EOFException e) {
+                    // Se alcanzó el final del archivo
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo de datos.");
+        }
+    }
+       
+              public static void leerEncontrado(ArrayList<Perro> misPerros, ServletContext context) throws IOException, ClassNotFoundException {
+        // Ruta relativa y absoluta del archivo de datos serializados
+        String rutaRelativa = "/data/encontrado.ser";
         String rutaAbsoluta = context.getRealPath(rutaRelativa);
         File archivo = new File(rutaAbsoluta);
 

@@ -36,9 +36,18 @@ public class SvBuscar extends HttpServlet {
         
         // Obtenemos de qué manera se va a ordenar la lista
         String buscar = request.getParameter("opcion");
+        
+        String nombreP = request.getParameter("nombre");
+        
+        System.out.println(nombreP);
+        
+        String nombreE = nombreP.toLowerCase();
 
         // Crea una lista para almacenar objetos de la clase "Perro"
         ArrayList<Perro> misPerros = new ArrayList<>();
+        
+                // Crea una lista para almacenar objetos de la clase "Perro"
+        ArrayList<Perro> encontrado = new ArrayList<>();
 
         // Obtiene el contexto del servlet
         ServletContext context = getServletContext();
@@ -47,6 +56,31 @@ public class SvBuscar extends HttpServlet {
             Serializacion.leerArchivo(misPerros, context);
             ArrayList<Perro> perrosEncontrados = new ArrayList<>();
 
+            if(buscar.equals("nombreP")){
+            // Variables para el seguimiento de la puntuación más alta y la lista de perros con la puntuación más alta
+
+            boolean noExiste = false;
+                // Recorre la lista de perros
+                for (Perro perro : misPerros) {
+
+                    // Si encontramos una puntuación más alta, actualizamos la lista de perros con la puntuación más alta
+                    if (perro.getNombre().toLowerCase().equals(nombreE.toLowerCase()) ) {
+                        System.out.println(perro.getNombre() + nombreE);
+                        perrosEncontrados.clear();
+                        perrosEncontrados.add(perro);
+                        noExiste = true;
+                    } 
+                }
+                
+                   if(noExiste == false){
+                Perro escribe = new Perro("juan", "var", "oe", 2,  3);
+                encontrado.add(escribe);
+                Serializacion.escribirEncontrado(encontrado, context);
+            }
+
+            }
+         
+            
             if (buscar.equals("puntajeMayor")) {
 
                 // Variables para el seguimiento de la puntuación más alta y la lista de perros con la puntuación más alta
@@ -162,18 +196,7 @@ public class SvBuscar extends HttpServlet {
 @Override
 protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
-    // Recupera el valor del parámetro "error" enviado desde SvExpoCanina
-    String error = request.getParameter("error");
-    
-    System.out.println("Corriedno metodo");
 
-    // Modifica el valor del parámetro si es necesario
-    if ("nombre_repetido".equals(error)) {
-        error = "nuevo_valor_del_error";
-    }
-
-    // Redirige a index.jsp con el nuevo valor del parámetro "error"
-    response.sendRedirect("index.jsp?error=" + error);
 }
 
     @Override

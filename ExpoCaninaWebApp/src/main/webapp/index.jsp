@@ -75,9 +75,9 @@
                 </form> <!-- Cierre del form -->
                 <br>
 
-                <% 
+                <%
                     //Obtener el contexto del servlet
-                            ServletContext context = getServletContext();
+                    ServletContext context = getServletContext();
                     ArrayList<Perro> modalError = new ArrayList<>();
                     ArrayList<Perro> modalVacio = new ArrayList<>();
                     Serializacion.leerModalError(modalError, context);
@@ -87,12 +87,32 @@
 
                     $(document).ready(function () {
                         errorModal();
-                        });
-                    
+                    });
+
                 </script>                
                 <% }
-                Serializacion.escribirModal(modalVacio, context);
+                    Serializacion.escribirModal(modalVacio, context);
                 %> 
+
+                
+                <%
+                    //Obtener el contexto del servlet
+                    ArrayList<Perro> encontrado = new ArrayList<>();
+                    ArrayList<Perro> encontradoVacio = new ArrayList<>();
+                    Serializacion.leerEncontrado(encontrado, context);
+                %>
+                <% if (!encontrado.isEmpty()) { %>
+                <script>
+
+                    $(document).ready(function () {
+                        mensajeNoPerros();
+                    });
+
+                </script>                
+                <% }
+                    Serializacion.escribirEncontrado(encontradoVacio, context);
+                %> 
+
             </div> <!-- Cierre de la clase card card-body -->
         </div> <!-- Cierre de la clase col-lg-4 col-md-4 -->
 
@@ -137,7 +157,7 @@
                             </ul>
                             <form class="d-flex" role="search" enctype="multipart/form-data">
                                 <input class="form-control me-2" type="search" id="inputNombre" placeholder="Nombre del perro" aria-label="Search">
-                                <button href="#" type="button" class="btn btn-outline-success" onclick="buscarPerro()">Buscar</button>
+                                <button href="#" type="button" class="btn btn-outline-success" onclick="buscarPor('nombreP')">Buscar</button>
                             </form>
                         </div>
                     </div>
@@ -167,8 +187,6 @@
 
                             //Crear una lista para almacenar objetos Perro
                             ArrayList<Perro> listaVacia = new ArrayList<>();
-
-                            
 
                             Serializacion.leerArchivoBusqueda(buscar, context);
 
@@ -485,7 +503,7 @@
 
         // Realiza una solicitud AJAX al servlet para realizar la ordenación alfabética
         $.ajax({
-            url: 'SvEliminar?opcion=' + ordenarPor, // Reemplaza 'TuServlet' con la URL de tu servlet
+            url: 'SvEliminar?opcion=' + ordenarPor,
             method: 'POST', // Utiliza POST u otro método HTTP según corresponda
             success: function (data) {
                 // En caso de éxito en la solicitud:
@@ -759,11 +777,20 @@
 
 <script>
     function buscarPor(opcion) {
+
+        // Obtener el valor del input
+        var inputNombre = document.getElementById("inputNombre").value;
+
+        // Verificar si inputNombre está vacío y asignar un valor predeterminado si es necesario
+        if (inputNombre.trim() === "") {
+            inputNombre = ""; // Reemplaza "ValorPredeterminado" con el valor que desees
+        }
+
         var buscarPor = opcion;
 
         // Realiza una solicitud AJAX al servlet para realizar la ordenación alfabética
         $.ajax({
-            url: 'SvBuscar?opcion=' + buscarPor, // Agrega el parámetro activarTabla=true
+            url: 'SvBuscar?opcion=' + buscarPor + '&nombre=' + inputNombre,
             method: 'GET', // Utiliza POST u otro método HTTP según corresponda
             success: function (data) {
                 // En caso de éxito en la solicitud:
@@ -851,6 +878,14 @@
         $("#errorModal").modal("show");
     }
 </script>
+
+<script>
+function mensajeNoPerros(){
+    $("#mensajeNoPerros").modal("show");
+}
+
+</script>
+
 
 
 <!---------------------------------------------- ////Scripts para buscar perro ------------------------------------------------->
