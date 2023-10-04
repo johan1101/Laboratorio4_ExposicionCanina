@@ -26,6 +26,7 @@
                         </div>
                     </div>
 
+
                     <br><div class="col-auto">
                         <label class="visually-hidden" for="raza">Raza</label>
                         <div class="input-group">
@@ -70,8 +71,28 @@
                         </div>
                     </div>
                     <!-- Botón de tipo submit que permite insertar un perro -->
-                    <br><button type="submit" class="btn btn-success" onclick="verificarNombre()">Insertar Perro</button>
+                    <br><button type="submit" class="btn btn-success" >Insertar Perro</button>
                 </form> <!-- Cierre del form -->
+                <br>
+
+                <% 
+                    //Obtener el contexto del servlet
+                            ServletContext context = getServletContext();
+                    ArrayList<Perro> modalError = new ArrayList<>();
+                    ArrayList<Perro> modalVacio = new ArrayList<>();
+                    Serializacion.leerModalError(modalError, context);
+                %>
+                <% if (!modalError.isEmpty()) { %>
+                <script>
+
+                    $(document).ready(function () {
+                        errorModal();
+                        });
+                    
+                </script>                
+                <% }
+                Serializacion.escribirModal(modalVacio, context);
+                %> 
             </div> <!-- Cierre de la clase card card-body -->
         </div> <!-- Cierre de la clase col-lg-4 col-md-4 -->
 
@@ -147,8 +168,7 @@
                             //Crear una lista para almacenar objetos Perro
                             ArrayList<Perro> listaVacia = new ArrayList<>();
 
-                            //Obtener el contexto del servlet
-                            ServletContext context = getServletContext();
+                            
 
                             Serializacion.leerArchivoBusqueda(buscar, context);
 
@@ -258,12 +278,32 @@
             </div>
             <div class="modal-body">
                 <!-- Imagen de error en la busqueda -->
-                <img src="https://thumbs.dreamstime.com/b/p%C3%A1gina-web-de-error-no-encontrada-acceso-al-sitio-conexi%C3%B3n-internet-incorrecta-disponible-descargada-dise%C3%B1o-descargado-con-275612651.jpg" alt="alt" width="100%"/>
+                <img src="./img/error.jpg" alt="alt" width="100%"/>
                 <!-- Mensaje que informa al usuario que no se encontro el perro buscado -->
                 <h5 align="center">No se encontro ningún perro con ese nombre</h5>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="mostrarTablaCompleta()">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de error si se intenta registrar otro perro con el nombre de un perro que ya esta registrado -->
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="errorModalLabel">Error</h5>
+            </div>
+            <div class="modal-body">
+                <!-- Imagen de error en la busqueda -->
+                <img src="./img/errorRegistro.jpg" alt="alt" width="100%"/><br>
+                <!-- Mensaje que informa al usuario que no se encontro el perro buscado -->
+                <br><h5 align="center">El nombre ya está registrado. Por favor, ingrese otro nombre</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
@@ -408,7 +448,32 @@
     </div>
 </div>
 
+
 <!----------------------------------------- ///Modales para editar las caracteristicas ------------------------------------------>
+
+<script>
+    // Agrega un evento de escucha al campo de texto
+    document.getElementById('nombre').addEventListener('input', function () {
+        var inputText = this.value.trim(); // Obtén el valor del campo y quita los espacios en blanco al inicio y al final
+        var palabras = inputText.split(/\s+/); // Divide el valor en palabras utilizando espacios en blanco como separadores
+
+        // Verifica si el número de palabras es mayor que 10
+        if (palabras.length > 10) {
+            // Muestra un mensaje de error y deshabilita el envío del formulario si se supera el límite
+            document.getElementById('mensajeError').textContent = 'El nombre no puede tener más de 10 palabras.';
+            document.getElementById('nombre').setCustomValidity(''); // Invalida el campo
+        } else {
+            // Limpia el mensaje de error y permite el envío del formulario si no se supera el límite
+            document.getElementById('mensajeError').textContent = '';
+            document.getElementById('nombre').setCustomValidity(''); // Valida el campo
+        }
+    });
+</script>
+
+
+
+
+
 
 
 <!------------------------------------------- Scripts para editar ordenar la lista ---------------------------------------------->
@@ -713,13 +778,13 @@
     }
 
     function activarTabla() {
-            $("#mostrarTabla").show();
-        }
-        
-        function mostrarTabla(){
-            location.reload();
-        }
-   
+        $("#mostrarTabla").show();
+    }
+
+    function mostrarTabla() {
+        location.reload();
+    }
+
 </script>
 
 <script>
@@ -780,6 +845,13 @@
         $("#mensajeNoPerros").modal("show");
     }
 </script>
+
+<script>
+    function errorModal() {
+        $("#errorModal").modal("show");
+    }
+</script>
+
 
 <!---------------------------------------------- ////Scripts para buscar perro ------------------------------------------------->
 

@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -74,7 +75,6 @@ public class SvExpCanina extends HttpServlet {
         }
     }
 
-    //"<p><img src=" + request.getContextPath() + "/imgPerros/" + perro.getImagen() + " 'style='width: 200px;" + "alt='Imagen de perro'></p>";
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -84,6 +84,8 @@ public class SvExpCanina extends HttpServlet {
 
         //Obtener el contexto del servlet
         ServletContext context = getServletContext();
+        
+        ArrayList<Perro> modalError = new ArrayList<>();
 
         //Crear una lista para almacenar objetos Perro
         ArrayList<Perro> misPerros = new ArrayList<>();
@@ -98,6 +100,9 @@ public class SvExpCanina extends HttpServlet {
 
         // Obtener datos del formulario enviados por POST
         String nombre = request.getParameter("nombre");
+
+        String nombreMinuscula = nombre.toLowerCase();
+
         String raza = request.getParameter("raza");
 
         //Obtener la parte del archivo de imagen desde la solicitud
@@ -127,20 +132,39 @@ public class SvExpCanina extends HttpServlet {
             }
         }
 
-        // Crear un objeto Perro con los datos ingresados y el nombre del archivo de imagen
-        Perro perro = new Perro(nombre, raza, fileName, Integer.parseInt(puntos), Integer.parseInt(edad));
+        // Verificar si el nombre del perro ya existe en la lista
+        boolean nombreRepetido = false;
+        for (Perro perroExistente : misPerros) {
+            if (perroExistente.getNombre().toLowerCase().equals(nombreMinuscula)) {
+                nombreRepetido = true;
+                System.out.println(perroExistente.getNombre());
+                System.out.println(perroExistente.getNombre().toLowerCase());
+                break; // Salir del bucle si se encuentra un nombre repetido
+            }
+        }
 
-        //Agregar el objeto Perro a la lista de perros
-        misPerros.add(perro);
+        if (nombreRepetido) {
+            Perro moda = new Perro("juan", "var", "oe", 2,  3);
+            modalError.add(moda);
+            Serializacion.escribirModal(modalError, context);
+                        // Redireccionar a la página de destino
+            response.sendRedirect("index.jsp");
+        } else {
+            // Crear un objeto Perro con los datos ingresados y el nombre del archivo de imagen
+            Perro perro = new Perro(nombre, raza, fileName, Integer.parseInt(puntos), Integer.parseInt(edad));
 
-        //Guardar la lista actualizada en un archivo
-        Serializacion.escribirArchivo(misPerros, context);
+            // Agregar el objeto Perro a la lista de perros solo si el nombre no está repetido
+            misPerros.add(perro);
 
-        // Agregar la lista completa de perros como atributo en la sesión
-        session.setAttribute("misPerros", misPerros);
+            //Guardar la lista actualizada en un archivo
+            Serializacion.escribirArchivo(misPerros, context);
 
-        // Redireccionar a la página de destino
-        response.sendRedirect("index.jsp");
+            // Agregar la lista completa de perros como atributo en la sesión
+            session.setAttribute("misPerros", misPerros);
+
+            // Redireccionar a la página de destino
+            response.sendRedirect("index.jsp");
+        }
     }
 
     /**

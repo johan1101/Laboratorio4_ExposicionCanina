@@ -33,7 +33,7 @@ public class SvBuscar extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
+        
         // Obtenemos de qué manera se va a ordenar la lista
         String buscar = request.getParameter("opcion");
 
@@ -148,18 +148,33 @@ public class SvBuscar extends HttpServlet {
                 System.out.println("Perros con la puntuación más baja: " + perrosEncontrados);
             }
 
+           
             Serializacion.escribirBusqueda(perrosEncontrados, context);
             System.out.println(perrosEncontrados);
+            
+                        // Redireccionar a la página de destino
+            
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SvBuscar.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+@Override
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    // Recupera el valor del parámetro "error" enviado desde SvExpoCanina
+    String error = request.getParameter("error");
+    
+    System.out.println("Corriedno metodo");
+
+    // Modifica el valor del parámetro si es necesario
+    if ("nombre_repetido".equals(error)) {
+        error = "nuevo_valor_del_error";
     }
+
+    // Redirige a index.jsp con el nuevo valor del parámetro "error"
+    response.sendRedirect("index.jsp?error=" + error);
+}
 
     @Override
     public String getServletInfo() {
