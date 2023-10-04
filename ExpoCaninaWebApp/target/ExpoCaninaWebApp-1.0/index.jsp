@@ -22,16 +22,15 @@
                         <label class="visually-hidden" for="nombre">Nombre</label>
                         <div class="input-group">
                             <div class="input-group-text">Nombre:</div>
-                            <input type="text" class="form-control" id="nombre" name="nombre" required>
+                            <input type="text" class="form-control" id="nombre" name="nombre" maxlength="10" required title="Solo puede ingresar 10 caracteres">
                         </div>
                     </div>
-
 
                     <br><div class="col-auto">
                         <label class="visually-hidden" for="raza">Raza</label>
                         <div class="input-group">
                             <div class="input-group-text">Raza:</div>
-                            <input type="text" class="form-control" id="raza" name="raza" required>
+                            <input type="text" class="form-control" id="raza" name="raza" maxlength="16" required title="Solo puede ingresar 10 caracteres">
                         </div>
                     </div>
 
@@ -42,6 +41,21 @@
                             <input type="file" class="form-control" id="imagen" name="imagen" accept=".jpg, .jpeg, .png" required>
                         </div>
                     </div>
+
+                    <script>
+                        document.getElementById('imagen').addEventListener('change', function () {
+                            const input = this;
+                            const maxLength = 15; // Límite de caracteres permitidos en el nombre del archivo
+
+                            if (input.files.length > 0) {
+                                const fileName = input.files[0].name;
+                                if (fileName.length > maxLength) {
+                                    mostrarLimite();
+                                    input.value = '';
+                                }
+                            }
+                        });
+                    </script>
 
                     <br><div class="col-auto">
                         <label class="visually-hidden" for="puntos">Puntos</label>
@@ -67,11 +81,11 @@
                         <label class="visually-hidden" for="edad">Edad</label>
                         <div class="input-group">
                             <div class="input-group-text">Edad:</div>
-                            <input type="text" class="form-control" id="edad" name="edad" required pattern="[0-9]+" title="Por favor, ingrese solo números">
+                            <input type="text" class="form-control" id="edad" name="edad" maxlength="2" required pattern="[0-9]+" title="Por favor, ingrese solo números">
                         </div>
                     </div>
                     <!-- Botón de tipo submit que permite insertar un perro -->
-                    <br><button type="submit" class="btn btn-success" >Insertar Perro</button>
+                    <br><button type="submit" class="btn btn-success"">Insertar Perro</button>
                 </form> <!-- Cierre del form -->
                 <br>
 
@@ -94,7 +108,7 @@
                     Serializacion.escribirModal(modalVacio, context);
                 %> 
 
-                
+
                 <%
                     //Obtener el contexto del servlet
                     ArrayList<Perro> encontrado = new ArrayList<>();
@@ -237,9 +251,6 @@
                     </tbody>
                 </table> <!-- Cierre de la etiqueta table-->
                 <center>
-                    <button class="btn btn-success" id="mostrarTablaCompleta" onclick="mostrarTablaCompleta()" style="display: none;">Mostrar Tabla Completa</button>
-                </center>
-                <center>
                     <button class="btn btn-success" id="mostrarTabla" onclick="mostrarTabla()" style="display: none;">Mostrar Tabla Completa</button>
                 </center>
             </div> <!-- Cierre de la clase card card-body -->
@@ -307,7 +318,8 @@
     </div>
 </div>
 
-<!-- Modal de error si se intenta registrar otro perro con el nombre de un perro que ya esta registrado -->
+<!-- Modal de error que contiene un mensaje en caso de que el usuario intente ingresar un perro con el mismo nombre -->
+<!-- o una imagen que ya esta registrada -->
 <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -315,10 +327,11 @@
                 <h5 class="modal-title" id="errorModalLabel">Error</h5>
             </div>
             <div class="modal-body">
-                <!-- Imagen de error en la busqueda -->
+                <!-- Imagen de error en el registro -->
                 <img src="./img/errorRegistro.jpg" alt="alt" width="100%"/><br>
-                <!-- Mensaje que informa al usuario que no se encontro el perro buscado -->
-                <br><h5 align="center">El nombre ya está registrado. Por favor, ingrese otro nombre</h5>
+                <!-- Mensaje que informa al usuario que el nombre del perro o de la imagen ya estan registrados -->
+                <br><h5 align="center">Los datos que intenta ingresar ya se encuentran en el sistema.</h5>
+                <p align="center">Por favor verifique la información e intente nuevamente.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -326,6 +339,25 @@
         </div>
     </div>
 </div>
+
+<!-- Modal que informa al usuario que supero el limite de caracteres  -->
+<div class="modal fade" id="errorLimiteModal" tabindex="-1" aria-labelledby="errorLimiteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="errorLimiteModalLabel">Error</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6 align="center">El nombre del archivo no puede tener más de 15 caracteres, por favor cambia el nombre.</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!------------------------------------------ Modales para editar las caracteristicas ---------------------------------------------->
 
@@ -489,11 +521,6 @@
 </script>
 
 
-
-
-
-
-
 <!------------------------------------------- Scripts para editar ordenar la lista ---------------------------------------------->
 
 <script>
@@ -519,6 +546,7 @@
         });
     }
 </script>
+
 
 <!-------------------------------------------- Scripts para editar las caracteristicas ------------------------------------------>
 
@@ -567,9 +595,8 @@
             // Pedira que se ingrese un dato
         }
     }
-</script>
 
-<script>
+
     /**
      * Esta función se encarga de eliminar un perro a través de una solicitud AJAX al servidor.
      */
@@ -611,8 +638,6 @@
             // Pedira que se ingrese un dato
         }
     }
-
-
 </script>
 
 <!---------------------------------------Scripts para la parte de editar las caracteristicas ------------------------------------>
@@ -644,9 +669,8 @@
         // Actualiza el contenido del modal con el nombre del perro
         modal.find('#nombrePerroEnModal').text(nombrePerro);
     });
-</script>
 
-<script>
+
     /**
      * Esta función se encarga de mostrar los detalles de un perro en una ventana modal.
      * Se dispara cuando se muestra el modal.
@@ -677,9 +701,7 @@
         });
     });
 
-</script>
 
-<script>
     /**
      * Variable global utilizada para almacenar temporalmente el nombre del perro
      * que se mostrará en el modal de confirmación antes de eliminarlo.
@@ -706,9 +728,8 @@
         // Actualiza el contenido del modal con el nombre del perro
         modal.find('#nombrePerroEnModal').text(nombrePerro);
     });
-</script>
 
-<script>
+
     /**
      * Esta función se encarga de eliminar un perro a través de una solicitud AJAX al servidor.
      */
@@ -742,9 +763,6 @@
     }
 
 
-</script>
-
-<script>
     /**
      * Variable global utilizada para almacenar temporalmente el nombre del perro
      * que se mostrará en el modal de confirmación antes de eliminarlo.
@@ -804,89 +822,33 @@
         });
     }
 
+    // Activa la tabla del listado de perros
     function activarTabla() {
         $("#mostrarTabla").show();
     }
 
+    // Muestra la tabla completa
     function mostrarTabla() {
         location.reload();
     }
 
-</script>
 
-<script>
-    /**
-     * Función utlizada para buscar un perro por medio de la barra de busqueda en el Navbar
-     * Al presionar el botón buscar mustra el perro buscado, en caso de que no este registrado muestra una ventana modal
-     */
-    function buscarPerro() {
-        // Variable que obtiene el valor ingresado por el usuario en el campo de entrada y convertirlo a minúsculas
-        var inputNombre = document.getElementById("inputNombre").value.toLowerCase();
-        // Variable para rastrear si se muestran filas
-        var filasMostradas = false;
-
-        // Iterar a través de cada fila (<tr>) en el cuerpo de la tabla (<tbody>)
-        $("tbody tr").each(function () {
-            // Obtener el nombre del perro en la primera columna (<td>) de la fila y convertirlo a minúsculas
-            var nombrePerro = $(this).find("td:first").text().toLowerCase();
-
-            // Verificar si el nombre del perro contiene el valor ingresado por el usuario
-            if (nombrePerro.includes(inputNombre)) {
-                // Si es así, mostrar la fila
-                $(this).show();
-                filasMostradas = true; // Al menos una fila se muestra
-            } else {
-                // Si no, ocultar la fila
-                $(this).hide();
-            }
-        });
-
-        // Mostrar el botón de "Mostrar tabla completa" 
-        if (filasMostradas) {
-            $("#mostrarTablaCompleta").show(); // Mostrar el botón de mostrar tabla completa
-        } else {
-            mostrarModalNoPerros();
-        }
-
-        // Limpiar el campo de búsqueda (si es necesario)
-        document.getElementById("inputNombre").value = "";
-    }
-
-    /**
-     * Función que muestra la tabla completa nuevamente despúes de realizar la busqueda de un perro especifico
-     * En caso de no encontrar el perro, el botón aceptar del modal muestra la tabla completa nuevamente
-     */
-    function mostrarTablaCompleta() {
-        // Mostrar todas las filas ocultas en el cuerpo de la tabla
-        $("tbody tr").show();
-
-        // Ocultar nuevamente el botón "Mostrar Tabla Completa"
-        $("#mostrarTablaCompleta").hide();
-
-        // Limpiar el campo de búsqueda (si es necesario)
-        document.getElementById("inputNombre").value = "";
-    }
-
-    // Función para mostrar el modal de mensaje cuando no se encuentren perros registrados
-    function mostrarModalNoPerros() {
-        $("#mensajeNoPerros").modal("show");
-    }
-</script>
-
-<script>
+    // Función para mostrar el modal de mensaje cuando haya errores en al intentar ingresar datos que ya se estan registrado
     function errorModal() {
         $("#errorModal").modal("show");
     }
+
+    // Función para mostrar el modal de mensaje cuando no se encuentren perros registrados
+    function mensajeNoPerros() {
+        $("#mensajeNoPerros").modal("show");
+    }
+    
+    // Función para mostrar el modal de mensaje cuando el usuario ingrese una imagen con un nombre supere el limite de caracteres
+    function mostrarLimite() {
+        $("#errorLimiteModal").modal("show");
+    }
+
 </script>
-
-<script>
-function mensajeNoPerros(){
-    $("#mensajeNoPerros").modal("show");
-}
-
-</script>
-
-
 
 <!---------------------------------------------- ////Scripts para buscar perro ------------------------------------------------->
 

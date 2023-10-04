@@ -137,23 +137,30 @@ public class SvExpCanina extends HttpServlet {
         for (Perro perroExistente : misPerros) {
             if (perroExistente.getNombre().toLowerCase().equals(nombreMinuscula)) {
                 nombreRepetido = true;
-                System.out.println(perroExistente.getNombre());
-                System.out.println(perroExistente.getNombre().toLowerCase());
                 break; // Salir del bucle si se encuentra un nombre repetido
             }
         }
 
-        if (nombreRepetido) {
-            Perro moda = new Perro("juan", "var", "oe", 2,  3);
+        // Verificar si el nombre del archivo de imagen ya existe en la lista
+        boolean imagenRepetida = false;
+        for (Perro imagenExistente : misPerros) {
+            if (imagenExistente.getImagen().equals(fileName)) {
+                imagenRepetida = true;
+                break; // Salir del bucle si se encuentra una imagen repetida
+            }
+        }
+
+        if (nombreRepetido || imagenRepetida) {
+            Perro moda = new Perro("Lucas", "Mestizo", "imagen.png", 8, 5);
             modalError.add(moda);
             Serializacion.escribirModal(modalError, context);
-                        // Redireccionar a la página de destino
+            // Redireccionar a la página de destino
             response.sendRedirect("index.jsp");
         } else {
             // Crear un objeto Perro con los datos ingresados y el nombre del archivo de imagen
             Perro perro = new Perro(nombre, raza, fileName, Integer.parseInt(puntos), Integer.parseInt(edad));
 
-            // Agregar el objeto Perro a la lista de perros solo si el nombre no está repetido
+            // Agregar el objeto Perro a la lista de perros solo si el nombre y la imagen no están repetidos
             misPerros.add(perro);
 
             //Guardar la lista actualizada en un archivo
