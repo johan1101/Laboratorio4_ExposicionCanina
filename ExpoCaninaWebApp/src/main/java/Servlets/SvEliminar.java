@@ -6,7 +6,7 @@ package Servlets;
 
 import com.mundo.expocaninawebapp.Perro;
 import com.mundo.expocaninawebapp.Serializacion;
-import com.mundo.expocaninawebapp.exposicionPerros;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -65,8 +65,43 @@ public class SvEliminar extends HttpServlet {
             Logger.getLogger(SvExpCanina.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // Llama al método "eliminarPerro" de la clase "exposicionPerros" para eliminar el perro
-        exposicionPerros.eliminarPerro(misPerros, nombreEliminar, context);
+        // Recorre la lista de perros
+        for (int i = 0; i < misPerros.size(); i++) {
+            Perro perro = misPerros.get(i);
+
+            // Comprueba si el nombre del perro coincide con el nombre proporcionado
+            if (perro.getNombre().equals(nombreEliminar)) {
+
+                // Obtiene la ruta relativa de la carpeta de imágenes
+                String rutaRelativa = "/imgPerros/";
+
+                // Obtiene la ruta absoluta en el sistema de archivos
+                String rutaAbsoluta = context.getRealPath(rutaRelativa);
+
+                // Crea un objeto File para la carpeta de imágenes
+                File archivo = new File(rutaAbsoluta);
+
+                // Crea un objeto File para la imagen a eliminar
+                File imagenEliminar = new File(archivo + "/" + perro.getImagen());
+
+                // Verifica si la imagen existe y la elimina
+                if (imagenEliminar.exists()) {
+                    // Elimina la imagen del sistema de archivos
+                    imagenEliminar.delete();
+                    if (imagenEliminar.delete()) {
+                        System.out.println("");
+                    } else {
+                        System.err.println("");
+                    }
+                } else {
+                    System.err.println("");
+                }
+
+                // Elimina el perro de la lista
+                misPerros.remove(i);
+                i--; // Ajusta el índice después de eliminar el elemento
+            }
+        }
 
         // Guarda la lista actualizada en un archivo
         Serializacion.escribirArchivo(misPerros, context);
@@ -115,8 +150,8 @@ public class SvEliminar extends HttpServlet {
                     }
                 });
             }
-            
-            if(ordenar.equals("puntos")){
+
+            if (ordenar.equals("puntos")) {
                 // Ordenar la lista de perros por el atributo "puntos"
                 Collections.sort(misPerros, new Comparator<Perro>() {
                     @Override
@@ -127,8 +162,8 @@ public class SvEliminar extends HttpServlet {
                     }
                 });
             }
-            
-            if(ordenar.equals("edad")){
+
+            if (ordenar.equals("edad")) {
                 // Ordenar la lista de perros por el atributo "edad"
                 Collections.sort(misPerros, new Comparator<Perro>() {
                     @Override

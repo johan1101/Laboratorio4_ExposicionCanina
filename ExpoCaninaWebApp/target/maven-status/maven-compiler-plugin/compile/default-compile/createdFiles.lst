@@ -1,6 +1,5 @@
 com\mundo\expocaninawebapp\Serializacion.class
 com\mundo\expocaninawebapp\resources\JavaEE8Resource.class
-com\mundo\expocaninawebapp\exposicionPerros.class
 Servlets\SvExpCanina.class
 Servlets\SvEliminar$4.class
 com\mundo\expocaninawebapp\JAXRSConfiguration.class
